@@ -3,7 +3,17 @@
     <app-header></app-header>
   </div>
   <main class="main">
-    MAIN - bryntum
+    <div class="app__select-work-center" *ngIf="!(isWorkCenterSelected$ | async); else bryntum" >
+      <app-select-work-center></app-select-work-center>
+    </div>
+
+    <ng-template #bryntum>
+      <div class="app__bryntum">
+        BRYNTUM
+      </div>
+    </ng-template>
+
+
   </main>
   <div class="footer">
     table

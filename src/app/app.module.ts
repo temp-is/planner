@@ -7,11 +7,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IsComponentsModule } from '@jude2go/is-components';
 import { HeaderComponent } from './components/header/header.component';
 import { MaterialModule } from './material/material.module';
+import { SelectWorkCenterComponent } from './components/select-work-center/select-work-center.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    SelectWorkCenterComponent
   ],
   imports: [
     BrowserModule,
