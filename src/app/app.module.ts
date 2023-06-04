@@ -5,16 +5,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IsComponentsModule } from '@jude2go/is-components';
+import { HeaderComponent } from './components/header/header.component';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    IsComponentsModule
+    IsComponentsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
