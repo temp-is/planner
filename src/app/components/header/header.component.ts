@@ -9,11 +9,8 @@ import { GlobalService } from 'src/app/services/global.service';
 export class HeaderComponent {
   company = '__:Company';
   userName = 'User name';
-  companyList: string[] = [
-    'XZ: TEST COMPANY',
-    'XX: TEST DATABASE',
-    'XD: TEST REVITAL CMN.',
-  ];
+
+  public companyList: string[];
 
   constructor(private globalService: GlobalService) {}
 
@@ -23,5 +20,9 @@ export class HeaderComponent {
     console.log('Selected company:', company);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.globalService.getCompanies().subscribe((data) => {
+      this.companyList = data;
+    });
+  }
 }
