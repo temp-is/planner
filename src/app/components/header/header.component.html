@@ -1,13 +1,36 @@
 <mat-toolbar color="primary">
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
-  <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>favorite</mat-icon>
-  </button>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-    <mat-icon>share</mat-icon>
-  </button>
+  <span>Planner |</span>
+  {{ company }}
+  <button mat-button>Select W.C</button>
+  <span>|</span>
+  <button mat-button [matMenuTriggerFor]="userOptions">{{ userName }}</button>
+  <mat-menu #userOptions="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="settings">Settings</button>
+    <button mat-menu-item>Admin Settings</button>
+    <button mat-menu-item>Manual</button>
+    <button mat-menu-item>Logout</button>
+  </mat-menu>
+
+  <mat-menu #settings="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="language">Language</button>
+    <button mat-menu-item [matMenuTriggerFor]="changeCompany">
+      Change Company
+    </button>
+    <button mat-menu-item>Back to Deafualt Mode</button>
+  </mat-menu>
+
+  <mat-menu #language="matMenu">
+    <button mat-menu-item>English</button>
+    <button mat-menu-item>Local language</button>
+  </mat-menu>
+
+  <mat-menu #changeCompany="matMenu">
+    <button
+      mat-menu-item
+      *ngFor="let company of companyList"
+      (click)="selectCompany(company)"
+    >
+      {{ company }}
+    </button>
+  </mat-menu>
 </mat-toolbar>
