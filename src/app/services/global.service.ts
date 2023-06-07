@@ -2,43 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, of } from 'rxjs';
 import { Observable } from 'rxjs';
-
-interface UserDetails {
-  CanWrite: boolean;
-  extjsUrl: string;
-  UserStat: boolean;
-  username: string;
-  company: string;
-  company_name: string;
-}
-
-interface FactoryDetails {
-  Code: string;
-  Name: string;
-}
-
-interface wcTypes {
-  TpCode: string;
-  TpName: string;
-}
-
-interface workCenters {
-  Code: string;
-  Desc: string;
-  DescLocal: string;
-  Name: string;
-  TpCode: string;
-  checkSOP: boolean;
-  includeOffOpr: boolean;
-  isBatch: boolean;
-  nonWorkingDays: number[];
-  numOfOprBfr: number;
-}
-
-interface WorkCenterList {
-  type: wcTypes[];
-  wc: workCenters[];
-}
+import {
+  Factory,
+  UserDetails,
+  WorkCenter,
+  WorkCenterList,
+} from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -61,9 +30,9 @@ export class GlobalService {
     );
   }
 
-  public getFactories(): Observable<FactoryDetails[]> {
+  public getFactories(): Observable<Factory[]> {
     const url: string = 'https://someDomain.com/iscar'; // ["company 1", "company 2"]
-    const factoryDetails: FactoryDetails[] = [
+    const factoryDetails: Factory[] = [
       {
         Code: 'GA',
         Name: 'GA: General & Admin',

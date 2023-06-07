@@ -1,39 +1,12 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/services/global.service';
-
-interface FactoryDetails {
-  Code: string;
-  Name: string;
-}
-
-interface WorkCenterType {
-  TpCode: string;
-  TpName: string;
-}
-
-interface wcTypes {
-  TpCode: string;
-  TpName: string;
-}
-
-interface workCenters {
-  Code: string;
-  Desc: string;
-  DescLocal: string;
-  Name: string;
-  TpCode: string;
-  checkSOP: boolean;
-  includeOffOpr: boolean;
-  isBatch: boolean;
-  nonWorkingDays: number[];
-  numOfOprBfr: number;
-}
-
-interface WorkCenterList {
-  type: wcTypes[];
-  wc: workCenters[];
-}
+import {
+  Factory,
+  Machine,
+  WorkCenter,
+  WorkCenterType,
+} from 'src/app/shared/models';
 
 @Component({
   selector: 'app-select-work-center',
@@ -41,10 +14,10 @@ interface WorkCenterList {
   styleUrls: ['./select-work-center.component.scss'],
 })
 export class SelectWorkCenterComponent {
-  public factories: Array<FactoryDetails> = [];
-  public workCenterType: Array<WorkCenterType> = [];
-  public workCenters: Array<workCenters> = [];
-  public machine: Array<string> = [];
+  public factoriesArray: Array<Factory> = [];
+  public workCentersArray: Array<WorkCenter> = [];
+  public WorkCenterTypeArray: Array<WorkCenterType> = [];
+  public machineArray: Array<Machine> = [];
 
   constructor(private globalService: GlobalService) {}
 
@@ -59,12 +32,12 @@ export class SelectWorkCenterComponent {
 
   ngOnInit() {
     this.globalService.getFactories().subscribe((data) => {
-      this.factories = data;
+      this.factoriesArray = data;
     });
 
     this.globalService.getWorkCenter().subscribe((data) => {
-      this.workCenterType = data.type;
-      this.workCenters = data.wc;
+      this.WorkCenterTypeArray = data.type;
+      this.workCentersArray = data.wc;
     });
   }
 }
