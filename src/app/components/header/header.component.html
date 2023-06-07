@@ -1,14 +1,14 @@
 <mat-toolbar color="primary">
   <span>Planner |</span>
   {{ company }}
-  <button mat-button>Select W.C</button>
+  <button mat-button (click)="selectWC()">Select W.C</button>
   <span>|</span>
   <button mat-button [matMenuTriggerFor]="userOptions">{{ userName }}</button>
   <mat-menu #userOptions="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="settings">Settings</button>
-    <button mat-menu-item>Admin Settings</button>
-    <button mat-menu-item>Manual</button>
-    <button mat-menu-item>Logout</button>
+    <button mat-menu-item (click)="adminSettings()">Admin Settings</button>
+    <button mat-menu-item (click)="manualbtn()">Manual</button>
+    <button mat-menu-item (click)="logOut()">Logout</button>
   </mat-menu>
 
   <mat-menu #settings="matMenu">
@@ -16,12 +16,18 @@
     <button mat-menu-item [matMenuTriggerFor]="changeCompany">
       Change Company
     </button>
-    <button mat-menu-item>Back to Deafualt Mode</button>
+    <button mat-menu-item (click)="backToDefault()">
+      Back to Deafualt Mode
+    </button>
   </mat-menu>
 
   <mat-menu #language="matMenu">
-    <button mat-menu-item>English</button>
-    <button mat-menu-item>Local language</button>
+    <button mat-menu-item (click)="setPlannerInEnglish('english')">
+      English
+    </button>
+    <button mat-menu-item (click)="setPlannerInEnglish(' ')">
+      Local language
+    </button>
   </mat-menu>
 
   <mat-menu #changeCompany="matMenu">
