@@ -16,40 +16,40 @@ export class HeaderComponent {
 
   constructor(private globalService: GlobalService) {}
 
-  changeusercompany() {
+  public changeUserCompany() {
     console.log('change user company');
   }
 
-  selectCompany(company: string) {
+  public selectCompany(company: string) {
     // Implement your logic here when a company is selected
     this.company = company;
     console.log('Selected company:', company);
-    this.changeusercompany();
+    this.changeUserCompany();
   }
 
-  setPlannerInEnglish(language: string) {
+  public setPlannerInEnglish(language: string) {
     if (language == 'english') {
       console.log('choose write in english');
     } else console.log('else language');
   }
 
-  manualbtn() {
+  public manualBtn() {
     console.log('manual buttun clicked');
   }
 
-  backToDefault() {
+  public backToDefault() {
     console.log('back to default');
   }
 
-  logOut() {
+  public logOut() {
     console.log('log out clicked');
   }
 
-  adminSettings() {
+  public adminSettings() {
     console.log('Admin settings clicked');
   }
 
-  selectWC() {
+  public selectWC() {
     console.log('select work center clicked');
     this.router.navigate(['/select-work-center']);
   }
