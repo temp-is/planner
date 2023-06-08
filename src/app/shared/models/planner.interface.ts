@@ -36,9 +36,9 @@ export interface WorkCenterList {
 }
 
 export interface Machine {
-  Code: string;
-  Desc: string;
-  DescLocal: string;
+  name: string;
+  desc: string;
+  machId: string;
 }
 
 export interface PlannerInterface {

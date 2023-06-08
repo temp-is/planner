@@ -19,7 +19,16 @@
 </mat-form-field>
 <br />
 <mat-form-field>
-  <mat-label>Work Center Type</mat-label>
+  <mat-label>Work Center</mat-label>
+  <mat-select [(value)]="selectedWorkCenter">
+    <mat-option *ngFor="let workCenter of workCentersArray" value="option1">{{
+      workCenter.Name
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>
+<br />
+<mat-form-field>
+  <mat-label>Machine</mat-label>
   <mat-select [(value)]="selectedWorkCenter">
     <mat-option *ngFor="let workCenter of workCentersArray" value="option1">{{
       workCenter.Name
