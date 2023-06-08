@@ -14,7 +14,11 @@ export class HeaderComponent {
   public companyList: string[];
   router: any;
 
-  constructor(private globalService: GlobalService) {}
+  constructor(private globalService: GlobalService) {
+    globalService.initAppRequests().subscribe((data) => {
+      debugger;
+    });
+  }
 
   public changeUserCompany() {
     console.log('change user company');

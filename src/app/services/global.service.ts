@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, of } from 'rxjs';
+import { forkJoin, map, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import {
   Factory,
@@ -8,6 +8,7 @@ import {
   WorkCenter,
   WorkCenterList,
 } from '../shared/models';
+import { API } from '../core/API';
 
 @Injectable({
   providedIn: 'root',
@@ -95,5 +96,15 @@ export class GlobalService {
     };
 
     return of(userDetails);
+  }
+
+  public initAppRequests(): Observable<{ [key: string]: any }> {
+    // const url1 = "https://planner-ltd.ssl.imc-grp.com:10443/index/getuserdetails"
+    return forkJoin(
+      // as of RxJS 6.5+ we can use a dictionary of sources
+      {
+        userDetails: this.http.get(API['userDetails']),
+      }
+    );
   }
 }
