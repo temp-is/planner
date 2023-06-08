@@ -4,6 +4,7 @@ import { forkJoin, map, of } from 'rxjs';
 import { Observable } from 'rxjs';
 import {
   Factory,
+  IMachine,
   UserDetails,
   WorkCenter,
   WorkCenterList,
@@ -83,6 +84,34 @@ export class GlobalService {
     return of(workCenterList);
   }
 
+  public getMachine(): Observable<IMachine[]> {
+    const url: string = 'https://someDomain.com/iscar';
+    const machine: IMachine[] = [
+      {
+        Name: '03: TBT ML200-2-800',
+        desc: 'TBT ML200-2-800',
+        machId: '03',
+      },
+      {
+        Name: '04: TBT ML200-2-800',
+        desc: 'TBT ML200-2-800',
+        machId: '04',
+      },
+      {
+        Name: '05: TBT ML200-2-800',
+        desc: 'TBT ML200-2-800',
+        machId: '05',
+      },
+      {
+        Name: '06: TBT ML200-2-800',
+        desc: 'TBT ML200-2-800',
+        machId: '06',
+      },
+    ];
+
+    return of(machine);
+  }
+
   public getUserDetails(): Observable<UserDetails> {
     //Need to understand how to get all of the data
     const url: string = 'https://someDomain.com/iscar';
@@ -100,11 +129,10 @@ export class GlobalService {
 
   public initAppRequests(): Observable<{ [key: string]: any }> {
     // const url1 = "https://planner-ltd.ssl.imc-grp.com:10443/index/getuserdetails"
-    return forkJoin(
-      // as of RxJS 6.5+ we can use a dictionary of sources
-      {
-        userDetails: this.http.get(API['userDetails']),
-      }
-    );
+    return forkJoin({
+      userDetails: this.http.get(API['userDetails']),
+      factorylist: this.http.get(API['factorylist'](1, 25)),
+      appdefaults: this.http.get(API['appdefaults']),
+    });
   }
 }

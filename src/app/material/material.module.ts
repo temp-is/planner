@@ -9,6 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 const modules: Array<any> = [
   MatToolbarModule,
@@ -19,6 +21,8 @@ const modules: Array<any> = [
   MatSelectModule,
   MatFormFieldModule,
   MatInputModule,
+  MatDialogModule,
+  DragDropModule,
 ];
 
 @NgModule({

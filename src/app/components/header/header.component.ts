@@ -15,9 +15,9 @@ export class HeaderComponent {
   router: any;
 
   constructor(private globalService: GlobalService) {
-    globalService.initAppRequests().subscribe((data) => {
-      debugger;
-    });
+    // globalService.initAppRequests().subscribe((data) => {
+    //   console.log(data);
+    // });
   }
 
   public changeUserCompany() {

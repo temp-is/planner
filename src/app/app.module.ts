@@ -9,6 +9,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { SelectWorkCenterComponent } from './components/select-work-center/select-work-center.component';
 import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
+
 // Add the import statement for FactoryDetails
 
 @NgModule({
