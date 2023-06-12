@@ -9,6 +9,7 @@ import {
   WorkCenterType,
 } from 'src/app/shared/models';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormControl, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-select-work-center',
@@ -21,6 +22,16 @@ export class SelectWorkCenterComponent {
   public WorkCenterTypeArray: Array<WorkCenterType> = [];
   public machineArray: Array<IMachine> = [];
 
+  inputValue: number = 0;
+  counter: number = 0;
+  maxCounter: number = 100;
+  minCounter: number = 0;
+
+  includeOfficeCheckBox: boolean = false;
+  viewModeCheckBox: boolean = false;
+
+  showComponent: boolean = false;
+
   constructor(private globalService: GlobalService, public dialog: MatDialog) {}
 
   selectedFactory = 'option2';
@@ -32,6 +43,7 @@ export class SelectWorkCenterComponent {
     //get info from service
   }
   ngOnInit() {
+    this.showComponent = true;
     this.globalService.getFactories().subscribe((data) => {
       this.factoriesArray = data;
     });
@@ -46,9 +58,20 @@ export class SelectWorkCenterComponent {
     this.globalService.getMachine().subscribe((data) => {
       this.machineArray = data;
     });
-    //  const dialogRef = this.dialog.open(SelectWorkCenterComponent, {});
-    //  dialogRef.afterClosed().subscribe((result) => {
-    //    console.log('The dialog was closed');
-    //  });
+  }
+  public incrementCounter() {
+    if (this.counter < this.maxCounter) {
+      this.counter++;
+    }
+  }
+  public decrementCounter() {
+    if (this.counter > this.minCounter) {
+      this.counter--;
+    }
+  }
+  public onSubmit(loginForm: NgForm): void {
+    debugger;
+    this.showComponent = false;
+    this.globalService.createWorkcenterData(loginForm.value);
   }
 }

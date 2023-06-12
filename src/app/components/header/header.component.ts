@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { GlobalService } from 'src/app/services/global.service';
 import { Router } from '@angular/router';
 
@@ -10,6 +10,10 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   company = '__:Company';
   userName = 'User name';
+
+  @Output() toggleVisibility: EventEmitter<boolean> =
+    new EventEmitter<boolean>();
+  isVisible: boolean = false;
 
   public companyList: string[];
   router: any;
@@ -67,5 +71,10 @@ export class HeaderComponent {
     this.globalService.getCompanies().subscribe((data) => {
       this.companyList = data;
     });
+  }
+
+  toggleComponentVisibility() {
+    this.isVisible = !this.isVisible;
+    this.toggleVisibility.emit(this.isVisible);
   }
 }

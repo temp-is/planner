@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const modules: Array<any> = [
   MatToolbarModule,
@@ -23,6 +25,8 @@ const modules: Array<any> = [
   MatInputModule,
   MatDialogModule,
   DragDropModule,
+  FormsModule,
+  MatCheckboxModule,
 ];
 
 @NgModule({

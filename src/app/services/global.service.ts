@@ -123,12 +123,21 @@ export class GlobalService {
       company: 'XZ',
       company_name: 'TEST COMPANY',
     };
-
     return of(userDetails);
   }
 
+  public createWorkcenterData(data: any): Observable<{ [key: string]: any }> {
+    debugger;
+    return forkJoin({
+      resourceStore: this.http.get(API['getresourcestore']),
+      availability: this.http.get(API['getavailability']),
+      holidays: this.http.get(API['getHolidays']),
+      unloadedorders: this.http.get(API['getunloadedorders']),
+      loadedorders: this.http.get(API['getloadedorders']),
+    });
+  }
+
   public initAppRequests(): Observable<{ [key: string]: any }> {
-    // const url1 = "https://planner-ltd.ssl.imc-grp.com:10443/index/getuserdetails"
     return forkJoin({
       userDetails: this.http.get(API['userDetails']),
       factorylist: this.http.get(API['factorylist'](1, 25)),
