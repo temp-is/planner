@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>Planner |</span>
   {{ company }}
-  <button mat-button (click)="selectWC()">Select W.C</button>
+  <button mat-button (click)="toggleComponentVisibility()">Select W.C</button>
   <span>|</span>
   <button mat-button [matMenuTriggerFor]="userOptions">{{ userName }}</button>
   <mat-menu #userOptions="matMenu">
@@ -39,7 +39,4 @@
       {{ company }}
     </button>
   </mat-menu>
-  <button color="primary" (click)="toggleComponentVisibility()">
-    Select W.C
-  </button>
 </mat-toolbar>
