@@ -9,11 +9,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { SelectWorkCenterComponent } from './components/select-work-center/select-work-center.component';
 import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { UnloadedOrdersComponent } from './components/unloaded-orders/unloaded-orders.component';
 
 // Add the import statement for FactoryDetails
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, SelectWorkCenterComponent],
+  declarations: [AppComponent, HeaderComponent, SelectWorkCenterComponent, UnloadedOrdersComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
