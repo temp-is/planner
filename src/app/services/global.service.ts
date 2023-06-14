@@ -129,19 +129,19 @@ export class GlobalService {
   public createWorkcenterData(data: any): Observable<{ [key: string]: any }> {
     debugger;
     return forkJoin({
-      resourceStore: this.http.get(API['getresourcestore']),
-      availability: this.http.get(API['getavailability']),
-      holidays: this.http.get(API['getHolidays']),
-      unloadedorders: this.http.get(API['getunloadedorders']),
-      loadedorders: this.http.get(API['getloadedorders']),
+      //resourceStore: this.http.get(API['getresourcestore']),
+      // availability: this.http.get(API['getavailability']),
+      // holidays: this.http.get(API['getHolidays']),
+      // unloadedorders: this.http.get(API['getunloadedorders']),
+      // loadedorders: this.http.get(API['getloadedorders']),
     });
   }
 
   public initAppRequests(): Observable<{ [key: string]: any }> {
     return forkJoin({
       userDetails: this.http.get(API['userDetails']),
-      factorylist: this.http.get(API['factorylist'](1, 25)),
-      appdefaults: this.http.get(API['appdefaults']),
+      factorylist: this.http.get(API['factorylist']),
+      // appdefaults: this.http.get(API['appdefaults']),
     });
   }
 }

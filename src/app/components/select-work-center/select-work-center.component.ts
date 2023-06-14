@@ -10,6 +10,7 @@ import {
 } from 'src/app/shared/models';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, NgForm } from '@angular/forms';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-select-work-center',
@@ -32,7 +33,11 @@ export class SelectWorkCenterComponent {
 
   showComponent: boolean = false;
 
-  constructor(private globalService: GlobalService, public dialog: MatDialog) {}
+  constructor(
+    private globalService: GlobalService,
+    public dialog: MatDialog,
+    private storage: StorageService
+  ) {}
 
   selectedFactory = 'option2';
   selectedWorkCenterType = 'option2';
@@ -44,9 +49,8 @@ export class SelectWorkCenterComponent {
   }
   ngOnInit() {
     this.showComponent = true;
-    this.globalService.getFactories().subscribe((data) => {
-      this.factoriesArray = data;
-    });
+    this.factoriesArray = this.storage.getData('factorylist');
+
     this.globalService.getWorkCenter().subscribe((data) => {
       this.WorkCenterTypeArray = data.type;
       this.workCentersArray = data.wc;

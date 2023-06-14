@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { GlobalService } from 'src/app/services/global.service';
 import { Router } from '@angular/router';
+import { IUserDetails } from 'src/app/shared/models';
+import { ThisReceiver } from '@angular/compiler';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-header',
@@ -18,10 +21,18 @@ export class HeaderComponent {
   public companyList: string[];
   router: any;
 
-  constructor(private globalService: GlobalService) {
-    // globalService.initAppRequests().subscribe((data) => {
-    //   console.log(data);
-    // });
+  constructor(
+    private globalService: GlobalService,
+    private storage: StorageService
+  ) {
+    globalService.initAppRequests().subscribe((data) => {
+      //console.log(data);
+      this.storage.setData('userDetails', data['userDetails']);
+      this.storage.setData('factorylist', data['factorylist']);
+      this.getUserDetails(data['userDetails']);
+
+      console.log(this.storage.getData('factorylist'));
+    });
   }
 
   public changeUserCompany() {
@@ -61,13 +72,12 @@ export class HeaderComponent {
     console.log('select work center clicked');
     this.router.navigate(['/select-work-center']);
   }
+  public getUserDetails(data: IUserDetails) {
+    this.company = data.company + ' ' + data.company_name;
+    this.userName = data.username;
+  }
 
   ngOnInit() {
-    this.globalService.getUserDetails().subscribe((data) => {
-      this.company = data.company + ' ' + data.company_name;
-      this.userName = data.username;
-    });
-
     this.globalService.getCompanies().subscribe((data) => {
       this.companyList = data;
     });
