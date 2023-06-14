@@ -1,0 +1,66 @@
+<div class="table-container">
+  <table mat-table [dataSource]="dataSource">
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Order Number</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="itemNumber">
+      <th mat-header-cell *matHeaderCellDef>Item Number</th>
+      <td mat-cell *matCellDef="let element">{{ element.itemNumber }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="itemDesc">
+      <th mat-header-cell *matHeaderCellDef>Item Description</th>
+      <td mat-cell *matCellDef="let element">{{ element.itemDesc }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="orderQuantity">
+      <th mat-header-cell *matHeaderCellDef>Order Quantity</th>
+      <td mat-cell *matCellDef="let element">{{ element.orderQuantity }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="currentStation">
+      <th mat-header-cell *matHeaderCellDef>Current Station</th>
+      <td mat-cell *matCellDef="let element">{{ element.currentStation }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="operation">
+      <th mat-header-cell *matHeaderCellDef>operation</th>
+      <td mat-cell *matCellDef="let element">{{ element.operation }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="currentOper">
+      <th mat-header-cell *matHeaderCellDef>currentOper</th>
+      <td mat-cell *matCellDef="let element">{{ element.currentOper }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="promiseDate">
+      <th mat-header-cell *matHeaderCellDef>promiseDate</th>
+      <td mat-cell *matCellDef="let element">{{ element.promiseDate }}</td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="requestDate">
+      <th mat-header-cell *matHeaderCellDef>requestDate</th>
+      <td mat-cell *matCellDef="let element">{{ element.requestDate }}</td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="requestWeek">
+      <th mat-header-cell *matHeaderCellDef>requestWeek</th>
+      <td mat-cell *matCellDef="let element">{{ element.requestWeek }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
