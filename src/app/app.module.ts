@@ -11,11 +11,12 @@ import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UnloadedOrdersComponent } from './components/unloaded-orders/unloaded-orders.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
+import { AdminSettingsComponent } from './components/admin-settings/admin-settings.component';
 
 // Add the import statement for FactoryDetails
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, SelectWorkCenterComponent, UnloadedOrdersComponent, SchedulerComponent],
+  declarations: [AppComponent, HeaderComponent, SelectWorkCenterComponent, UnloadedOrdersComponent, SchedulerComponent, AdminSettingsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

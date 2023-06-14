@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { IUserDetails } from 'src/app/shared/models';
 import { ThisReceiver } from '@angular/compiler';
 import { StorageService } from 'src/app/services/storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectWorkCenterComponent } from '../select-work-center/select-work-center.component';
+import { AdminSettingsComponent } from '../admin-settings/admin-settings.component';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +26,8 @@ export class HeaderComponent {
 
   constructor(
     private globalService: GlobalService,
-    private storage: StorageService
+    private storage: StorageService,
+    public dialog: MatDialog
   ) {
     globalService.initAppRequests().subscribe((data) => {
       //console.log(data);
@@ -32,6 +36,13 @@ export class HeaderComponent {
       this.getUserDetails(data['userDetails']);
 
       console.log(this.storage.getData('factorylist'));
+    });
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(SelectWorkCenterComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -52,6 +63,15 @@ export class HeaderComponent {
     } else console.log('else language');
   }
 
+  public adminSettings() {
+    console.log('Admin settings clicked');
+    const dialogRef = this.dialog.open(AdminSettingsComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
   public manualBtn() {
     console.log('manual buttun clicked');
   }
@@ -64,10 +84,6 @@ export class HeaderComponent {
     console.log('log out clicked');
   }
 
-  public adminSettings() {
-    console.log('Admin settings clicked');
-  }
-
   public selectWC() {
     console.log('select work center clicked');
     this.router.navigate(['/select-work-center']);
@@ -78,6 +94,7 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
+    this.openDialog();
     this.globalService.getCompanies().subscribe((data) => {
       this.companyList = data;
     });

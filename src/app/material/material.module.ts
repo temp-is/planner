@@ -14,6 +14,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const modules: Array<any> = [
   MatToolbarModule,
@@ -29,6 +30,7 @@ const modules: Array<any> = [
   FormsModule,
   MatCheckboxModule,
   MatTableModule,
+  MatTabsModule,
 ];
 
 @NgModule({

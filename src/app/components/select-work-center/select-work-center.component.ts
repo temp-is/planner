@@ -35,7 +35,6 @@ export class SelectWorkCenterComponent {
 
   constructor(
     private globalService: GlobalService,
-    public dialog: MatDialog,
     private storage: StorageService
   ) {}
 
@@ -44,8 +43,7 @@ export class SelectWorkCenterComponent {
   selectedWorkCenter = 'option2';
 
   onFactoryChange(factoryId: string): void {
-    //todo change work center types and center
-    //get info from service
+    debugger;
   }
   ngOnInit() {
     this.showComponent = true;
