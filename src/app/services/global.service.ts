@@ -23,6 +23,7 @@ export class GlobalService {
   }
 
   public createWorkcenterData(data: any): Observable<{ [key: string]: any }> {
+    debugger;
     return forkJoin({
       //resourceStore: this.http.get(API['getresourcestore']),
       // availability: this.http.get(API['getavailability']),
