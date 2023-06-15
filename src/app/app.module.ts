@@ -12,11 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { UnloadedOrdersComponent } from './components/unloaded-orders/unloaded-orders.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { AdminSettingsComponent } from './components/admin-settings/admin-settings.component';
+import { FieldSettingsComponent } from './components/field-settings/field-settings.component';
+import { FlagFieldsSettingsComponent } from './components/flag-fields-settings/flag-fields-settings.component';
 
 // Add the import statement for FactoryDetails
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, SelectWorkCenterComponent, UnloadedOrdersComponent, SchedulerComponent, AdminSettingsComponent],
+  declarations: [AppComponent, HeaderComponent, SelectWorkCenterComponent, UnloadedOrdersComponent, SchedulerComponent, AdminSettingsComponent, FieldSettingsComponent, FlagFieldsSettingsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,41 @@
+<section class="example-container mat-elevation-z8" tabindex="0">
+  <table mat-table [dataSource]="ELEMENT_DATA">
+    <ng-container matColumnDef="Active">
+      <th mat-header-cell *matHeaderCellDef>Active</th>
+      <td mat-cell *matCellDef="let element">
+        <ng-container>
+          <mat-checkbox [checked]="element.Active"></mat-checkbox>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="desc">
+      <th mat-header-cell *matHeaderCellDef>English Description</th>
+      <td mat-cell *matCellDef="let element">{{ element.desc }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="descLocal">
+      <th mat-header-cell *matHeaderCellDef>Local Description</th>
+      <td
+        mat-cell
+        *matCellDef="let element"
+        (click)="toggleLocalDescEditing(element)"
+      >
+        <ng-container *ngIf="element.editingLocalDesc">
+          <input
+            type="text"
+            [(ngModel)]="element.descLocal"
+            (blur)="element.editingLocalDesc = false"
+            autofocus
+          />
+        </ng-container>
+        <ng-container *ngIf="!element.editingLocalDesc">
+          <span>{{ element.descLocal }}</span>
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</section>
