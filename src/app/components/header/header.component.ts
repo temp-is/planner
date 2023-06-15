@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { GlobalService } from 'src/app/services/global.service';
 import { Router } from '@angular/router';
-import { IUserDetails } from 'src/app/shared/models';
+import { ICompany, IUserDetails } from 'src/app/shared/models';
 import { ThisReceiver } from '@angular/compiler';
 import { StorageService } from 'src/app/services/storage.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,14 +14,14 @@ import { AdminSettingsComponent } from '../admin-settings/admin-settings.compone
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  company = '__:Company';
   userName = 'User name';
 
   @Output() toggleVisibility: EventEmitter<boolean> =
     new EventEmitter<boolean>();
   isVisible: boolean = false;
 
-  public companyList: string[];
+  public companyList: Array<ICompany> = [];
+  public company: string = '';
   router: any;
 
   constructor(
@@ -33,8 +33,8 @@ export class HeaderComponent {
       //console.log(data);
       this.storage.setData('userDetails', data['userDetails']);
       this.storage.setData('factorylist', data['factorylist']);
+      this.companyList = data['userDetails']['connectedCompanies'];
       this.getUserDetails(data['userDetails']);
-
       console.log(this.storage.getData('factorylist'));
       console.log(this.storage.getData('userDetails')['columns']);
     });
@@ -51,10 +51,11 @@ export class HeaderComponent {
     console.log('change user company');
   }
 
-  public selectCompany(company: string) {
+  public selectCompany(company: ICompany) {
     // Implement your logic here when a company is selected
-    this.company = company;
-    console.log('Selected company:', company);
+
+    this.company = company.company;
+    console.log('Selected company:', company.company);
     this.changeUserCompany();
   }
 
@@ -96,9 +97,6 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.openDialog();
-    this.globalService.getCompanies().subscribe((data) => {
-      this.companyList = data;
-    });
   }
 
   toggleComponentVisibility() {

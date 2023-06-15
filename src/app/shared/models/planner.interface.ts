@@ -1,54 +1,3 @@
-export interface UserDetails {
-  CanWrite: boolean;
-  extjsUrl: string;
-  UserStat: boolean;
-  username: string;
-  company: string;
-  company_name: string;
-}
-
-export interface Factory {
-  Code: string;
-  Name: string;
-}
-
-export interface WorkCenterType {
-  TpCode: string;
-  TpName: string;
-}
-
-export interface WorkCenter {
-  Code: string;
-  Desc: string;
-  DescLocal: string;
-  Name: string;
-  TpCode: string;
-  checkSOP: boolean;
-  includeOffOpr: boolean;
-  isBatch: boolean;
-  nonWorkingDays: number[];
-  numOfOprBfr: number;
-}
-
-export interface WorkCenterList {
-  type: WorkCenterType[];
-  wc: WorkCenter[];
-}
-
-export interface Machine {
-  name: string;
-  desc: string;
-  machId: string;
-}
-
-export interface PlannerInterface {
-  user: Array<UserDetails>;
-  factory: Array<Factory>;
-  workCenter: Array<WorkCenter>;
-  workCenterType: Array<WorkCenterType>;
-  machine: Array<Machine>;
-}
-
 export interface IUserDetails {
   CanWrite: boolean;
   extjsUrl: string;
@@ -157,4 +106,102 @@ export interface IMachine {
   machId: string;
   desc: string;
   Name: string;
+}
+
+export interface ICompany {
+  company: string;
+  desc: string;
+  motherCmp: string;
+}
+
+export interface IUnloadedOrders {
+  Duration: string;
+  Name: string;
+  Setup: number;
+  UnStnTime: string;
+  allowHday: boolean;
+  blankStock: string;
+  codeStock: string;
+  commitDate: string;
+  commitWek: string;
+  curStationDist: string;
+  currentOper: string;
+  currentStation: string;
+  currentStnQty: string;
+  diameter: string;
+  die: string;
+  dieDesc: string;
+  drawingNumber: string;
+  drillDiameter: string;
+  err: boolean;
+  factory: string;
+  geo: string;
+  grindWheel: string;
+  grindWheelDS: string;
+  grindWheelStk: string;
+  height: string;
+  id: string;
+  insQtyOneSpit: string;
+  isBRB: boolean;
+  isCNF: boolean;
+  isFAI: boolean;
+  isFuture: boolean;
+  isInWhs: string;
+  isLotExpired: boolean;
+  isMRB: boolean;
+  isMTC: boolean;
+  isOnTheWay: boolean;
+  isTLS: boolean;
+  isVIP: boolean;
+  isWCNC: boolean;
+  isWDieAcc: boolean;
+  isWDraw: boolean;
+  isWGrW: boolean;
+  isWMaster: boolean;
+  isWRawMat: boolean;
+  itemDesc: string;
+  itemGrade: string;
+  itemNumber: string;
+  itemPrevLoadMch: string;
+  itemPrevLoadSeq: string;
+  lUpdate: string;
+  lastMachineprd: string;
+  manGroup: string;
+  matSize: string;
+  monthlyLvlStk: string;
+  oldItem: string;
+  openedReported: boolean;
+  operReqDate: number;
+  operation: string;
+  ordWeight: string;
+  orderDesc: string;
+  orderQuantity: string;
+  orderStatus: string;
+  orgDuration: string;
+  partQty: string;
+  prio1Qty: string;
+  prio2Qty: string;
+  prio3Qty: string;
+  promiseDate: string;
+  promiseWeek: string;
+  qtyOfSpit: string;
+  rank: string;
+  rawVal: string;
+  rawValDs: string;
+  relativeToRrn: string;
+  requestDate: string;
+  requestWeek: string;
+  rrn: string;
+  runNum: string;
+  runPrcnt: string;
+  runQty: string;
+  sORw: string;
+  size: string;
+  sizeRange: string;
+  sop1: string;
+  sop2: string;
+  twinId: string;
+  volume: any;
+  wcn: string;
+  wcnTyo: string;
 }
