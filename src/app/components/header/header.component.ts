@@ -36,6 +36,7 @@ export class HeaderComponent {
       this.companyList = data['userDetails']['connectedCompanies'];
       this.getUserDetails(data['userDetails']);
       console.log(this.storage.getData('factorylist'));
+      console.log(this.storage.getData('userDetails')['columns']);
     });
   }
 

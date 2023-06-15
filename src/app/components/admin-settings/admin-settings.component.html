@@ -1,6 +1,11 @@
-<div mat-dialog-content>
+<div class="example-container">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
-    <mat-tab label="Field Settings">gdxgvdxs </mat-tab>
-    <mat-tab label="Flag Fields Settings">Content 2</mat-tab>
+    <mat-tab label="Field Settings">
+      <app-field-settings></app-field-settings>
+    </mat-tab>
+    <mat-tab label="Flag Fields Settings">
+      <app-flag-fields-settings></app-flag-fields-settings>
+    </mat-tab>
   </mat-tab-group>
+  <button mat-raised-button (click)="updatecolumns()">Update</button>
 </div>
