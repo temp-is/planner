@@ -36,7 +36,7 @@
       *ngFor="let company of companyList"
       (click)="selectCompany(company)"
     >
-      {{ company }}
+      {{ company.company + ":" + company.desc }}
     </button>
   </mat-menu>
 </mat-toolbar>

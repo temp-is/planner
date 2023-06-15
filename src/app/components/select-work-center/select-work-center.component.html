@@ -5,20 +5,26 @@
       <span style="padding-right: 80px">Factory :</span>
       <mat-form-field>
         <mat-label>Factory</mat-label>
-        <mat-select name="factory" [(ngModel)]="selectedFactory">
-          <mat-option *ngFor="let factory of factoriesArray" value="option1">{{
-            factory.Name
-          }}</mat-option>
+        <mat-select
+          name="factory"
+          [ngModel]
+          (selectionChange)="onFactoryChange($event.value)"
+        >
+          <mat-option
+            *ngFor="let factory of factoriesArray"
+            [value]="factory.Code"
+            >{{ factory.Name }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
       <br />
-      <span style="padding-right: 10px">Work Center Type :</span>
+      <span style="padding-right: 5px">Work Center Type :</span>
       <mat-form-field>
         <mat-label>Work Center Type</mat-label>
-        <mat-select name="workCenterType" [(ngModel)]="selectedWorkCenterType">
+        <mat-select name="workCenterType" [ngModel]>
           <mat-option
-            *ngFor="let workCenter of WorkCenterTypeArray"
-            value="option1"
+            *ngFor="let workCenter of workCentersArray['wcTypes']"
+            [value]="workCenter.TpCode"
             >{{ workCenter.TpName }}</mat-option
           >
         </mat-select>
@@ -27,10 +33,14 @@
       <span style="padding-right: 45px">Work center :</span>
       <mat-form-field>
         <mat-label>Work Center</mat-label>
-        <mat-select name="workCenter" [(ngModel)]="selectedWorkCenter">
+        <mat-select
+          name="workCenter"
+          [ngModel]
+          (selectionChange)="onWorkCenterChange($event.value)"
+        >
           <mat-option
-            *ngFor="let workCenter of workCentersArray"
-            value="option1"
+            *ngFor="let workCenter of workCentersArray['workCenters']"
+            [value]="workCenter.Code"
             >{{ workCenter.Name }}</mat-option
           >
         </mat-select>
@@ -39,26 +49,24 @@
       <span style="padding-right: 70px">Machine :</span>
       <mat-form-field>
         <mat-label>Machine</mat-label>
-        <mat-select name="machine" [(ngModel)]="selectedWorkCenter">
-          <mat-option *ngFor="let machine of machineArray" value="option1">{{
-            machine.Name
+        <mat-select name="machine" [ngModel]>
+          <mat-option
+            *ngFor="let machine of machineArray"
+            [value]="machine.machId"
+            >{{ machine.Name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <br />
+      <span style="padding-right: 10px">Oprations before :</span>
+      <mat-form-field style="width: 100px">
+        <mat-select name="numberOfOprationsBefore" [ngModel]>
+          <mat-option *ngFor="let number of numbers" [value]="number">{{
+            number
           }}</mat-option>
         </mat-select>
       </mat-form-field>
       <br />
-      <div style="display: flex; align-items: center">
-        <span style="padding-right: 10px">Number of oprations before :</span>
-        <button type="button" (click)="decrementCounter()">&#8722;</button>
-        {{ counter }}
-        <button
-          name="numberOfOprationsBefore"
-          [(ngModel)]="counter"
-          type="button"
-          (click)="incrementCounter()"
-        >
-          &#43;
-        </button>
-      </div>
       <mat-checkbox
         name="includeOfficeCheckBox"
         [(ngModel)]="includeOfficeCheckBox"
