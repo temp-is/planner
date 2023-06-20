@@ -1,7 +1,9 @@
 <div class="example-container">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
     <mat-tab label="Field Settings">
-      <app-field-settings></app-field-settings>
+      <app-field-settings
+        (tableDataUpdated)="onTableDataUpdated($event)"
+      ></app-field-settings>
     </mat-tab>
     <mat-tab label="Flag Fields Settings">
       <app-flag-fields-settings></app-flag-fields-settings>
