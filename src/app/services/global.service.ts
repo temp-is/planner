@@ -1,15 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { forkJoin, map, of } from 'rxjs';
+import { BehaviorSubject, Subject, forkJoin, map, of, tap } from 'rxjs';
 import { Observable } from 'rxjs';
 import { IMachine, IUnloadedOrders, IWorkCenter } from '../shared/models';
 import { API } from '../core/API';
+import { IInitialData } from '../core/models/inital-data.model';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
-  constructor(private http: HttpClient) {}
+  private initialAppDataSubject$: BehaviorSubject<IInitialData> =
+    new BehaviorSubject(null);
+
+  constructor(private http: HttpClient, private storage: StorageService) {}
 
   public getWorkCenter(): Observable<IWorkCenter[]> {
     return this.http.get<IWorkCenter[]>(API['workcenterlist']);
@@ -33,11 +38,20 @@ export class GlobalService {
     });
   }
 
-  public initAppRequests(): Observable<{ [key: string]: any }> {
+  public getInitalAppData(): Observable<IInitialData> {
+    if (this.initialAppDataSubject$.value)
+      return this.initialAppDataSubject$.asObservable();
+
     return forkJoin({
       userDetails: this.http.get(API['userDetails']),
       factorylist: this.http.get(API['factorylist']),
       // appdefaults: this.http.get(API['appdefaults']),
-    });
+    }).pipe(
+      tap((data) => {
+        this.storage.setData('userDetails', data['userDetails']);
+        this.storage.setData('factorylist', data['factorylist']);
+        this.initialAppDataSubject$.next(data);
+      })
+    );
   }
 }

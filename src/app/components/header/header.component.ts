@@ -29,14 +29,18 @@ export class HeaderComponent {
     private storage: StorageService,
     public dialog: MatDialog
   ) {
-    globalService.initAppRequests().subscribe((data) => {
+    globalService.getInitalAppData().subscribe((data) => {
       //console.log(data);
-      this.storage.setData('userDetails', data['userDetails']);
-      this.storage.setData('factorylist', data['factorylist']);
+
+      //************************* */
+      //this is commented out because we moved it to global.servce.ts
+      // this.storage.setData('userDetails', data['userDetails']);
+      // this.storage.setData('factorylist', data['factorylist']);
+      //************************* */
       this.companyList = data['userDetails']['connectedCompanies'];
       this.getUserDetails(data['userDetails']);
-      console.log(this.storage.getData('factorylist'));
-      console.log(this.storage.getData('userDetails')['columns']);
+      console.log(data.factorylist);
+      console.log(data.userDetails['columns']);
     });
   }
 

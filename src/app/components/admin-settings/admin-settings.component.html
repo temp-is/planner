@@ -3,10 +3,13 @@
     <mat-tab label="Field Settings">
       <app-field-settings
         (tableDataUpdated)="onTableDataUpdated($event)"
+        [initialAppData]="initialAppData"
       ></app-field-settings>
     </mat-tab>
     <mat-tab label="Flag Fields Settings">
-      <app-flag-fields-settings></app-flag-fields-settings>
+      <app-flag-fields-settings
+        [initialAppData]="initialAppData"
+      ></app-flag-fields-settings>
     </mat-tab>
   </mat-tab-group>
   <button mat-raised-button (click)="updatecolumns()">Update</button>
