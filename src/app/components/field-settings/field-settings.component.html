@@ -37,12 +37,33 @@
 
     <ng-container matColumnDef="displayType">
       <th mat-header-cell *matHeaderCellDef>Field Position</th>
-      <td mat-cell *matCellDef="let element">{{ element.displayType }}</td>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="shouldDisplayCheckbox(element)">
+          <mat-form-field>
+            <mat-select [(value)]="element.displayType">
+              <mat-option value="Loaded + Unloaded Orders"
+                >Loaded + Unloaded Orders</mat-option
+              >
+              <mat-option value="Loaded Orders">Loaded Orders</mat-option>
+              <mat-option value="Unloaded Orders">Unloaded Orders</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="defaultMode">
       <th mat-header-cell *matHeaderCellDef>Default Mode</th>
-      <td mat-cell *matCellDef="let element">{{ element.defaultMode }}</td>
+      <td mat-cell *matCellDef="let element">
+        <ng-container *ngIf="shouldDisplayCheckbox(element)">
+          <mat-form-field>
+            <mat-select [(value)]="element.defaultMode">
+              <mat-option value="Yes">Yes</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="width">
@@ -52,16 +73,18 @@
         *matCellDef="let element"
         (click)="toggleWidthEditing(element)"
       >
-        <ng-container *ngIf="element.editingWidth">
-          <input
-            type="text"
-            [(ngModel)]="element.width"
-            (blur)="element.editingWidth = false"
-            autofocus
-          />
-        </ng-container>
-        <ng-container *ngIf="!element.editingWidth">
-          <span>{{ element.width }}</span>
+        <ng-container *ngIf="shouldDisplayCheckbox(element)">
+          <ng-container *ngIf="element.editingWidth">
+            <input
+              type="text"
+              [(ngModel)]="element.width"
+              (blur)="element.editingWidth = false"
+              autofocus
+            />
+          </ng-container>
+          <ng-container *ngIf="!element.editingWidth">
+            <span>{{ element.width }}</span>
+          </ng-container>
         </ng-container>
       </td>
     </ng-container>
