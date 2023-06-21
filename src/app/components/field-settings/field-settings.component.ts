@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { IInitialData } from 'src/app/core/models/inital-data.model';
 import { GlobalService } from 'src/app/services/global.service';
 import { StorageService } from 'src/app/services/storage.service';
 
@@ -28,6 +29,36 @@ interface dType {
 export class FieldSettingsComponent {
   @Output() tableDataUpdated: EventEmitter<any[]> = new EventEmitter<any[]>();
 
+  @Input() set initialAppData(initialAppData: IInitialData) {
+    const columnsData = initialAppData.userDetails['columns'];
+    this.ELEMENT_DATA = columnsData
+      .filter((item: any) => item.iconURL === '')
+      .map((item: any) => ({
+        Active: item.active,
+        desc: item.desc,
+        descLocal: item.descLocal,
+        defaultMode: item.defaultMode === true ? 'Yes' : 'No',
+        width: parseInt(item.width),
+        displayType:
+          item.displayType === 'B'
+            ? 'Loaded + Unloaded Orders'
+            : item.displayType === 'L'
+            ? 'Loaded Orders'
+            : item.displayType === 'U'
+            ? 'Unloaded Orders'
+            : '',
+      }));
+
+    console.log(this.ELEMENT_DATA);
+    const dataSource = this.ELEMENT_DATA;
+  }
+
+  private _initialAppData: IInitialData;
+
+  get initialAppData(): IInitialData {
+    return this._initialAppData;
+  }
+
   dtypes: dType[] = [
     { value: 'B', viewValue: 'Loaded + Unloaded Orders' },
     { value: 'L', viewValue: 'Loaded Orders' },
@@ -44,34 +75,30 @@ export class FieldSettingsComponent {
   ];
   ELEMENT_DATA: PeriodicElement[] = [];
 
-  constructor(
-    private globalService: GlobalService,
-    private storage: StorageService,
-    public dialog: MatDialog
-  ) {
-    globalService.initAppRequests().subscribe((data) => {
-      const columnsData = this.storage.getData('userDetails')['columns'];
-      this.ELEMENT_DATA = columnsData
-        .filter((item: any) => item.iconURL === '')
-        .map((item: any) => ({
-          Active: item.active,
-          desc: item.desc,
-          descLocal: item.descLocal,
-          defaultMode: item.defaultMode === true ? 'Yes' : 'No',
-          width: parseInt(item.width),
-          displayType:
-            item.displayType === 'B'
-              ? 'Loaded + Unloaded Orders'
-              : item.displayType === 'L'
-              ? 'Loaded Orders'
-              : item.displayType === 'U'
-              ? 'Unloaded Orders'
-              : '',
-        }));
-
-      console.log(this.ELEMENT_DATA);
-      const dataSource = this.ELEMENT_DATA;
-    });
+  constructor(public dialog: MatDialog) {
+    //DEPRECATED!!!
+    // globalService.initAppRequests().subscribe((data) => {
+    //   const columnsData = this.storage.getData('userDetails')['columns'];
+    //   this.ELEMENT_DATA = columnsData
+    //     .filter((item: any) => item.iconURL === '')
+    //     .map((item: any) => ({
+    //       Active: item.active,
+    //       desc: item.desc,
+    //       descLocal: item.descLocal,
+    //       defaultMode: item.defaultMode === true ? 'Yes' : 'No',
+    //       width: parseInt(item.width),
+    //       displayType:
+    //         item.displayType === 'B'
+    //           ? 'Loaded + Unloaded Orders'
+    //           : item.displayType === 'L'
+    //           ? 'Loaded Orders'
+    //           : item.displayType === 'U'
+    //           ? 'Unloaded Orders'
+    //           : '',
+    //     }));
+    //   console.log(this.ELEMENT_DATA);
+    //   const dataSource = this.ELEMENT_DATA;
+    // });
   }
 
   shouldDisplayCheckbox(element: any): boolean {
