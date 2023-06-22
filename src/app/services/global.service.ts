@@ -14,6 +14,16 @@ export class GlobalService {
   private initialAppDataSubject$: BehaviorSubject<IInitialData> =
     new BehaviorSubject(null);
 
+  private workCenters$: Subject<IUnloadedOrders[]> = new Subject();
+
+  public getWorkCenters$(): Observable<IUnloadedOrders[]> {
+    return this.workCenters$.asObservable();
+  }
+
+  public setWorkCenters(data: IUnloadedOrders[]): void {
+    this.workCenters$.next(data);
+  }
+
   constructor(private http: HttpClient, private storage: StorageService) {}
 
   public getWorkCenter(factoryCode: string): Observable<IWorkCenter[]> {
