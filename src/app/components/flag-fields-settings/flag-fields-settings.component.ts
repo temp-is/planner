@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { IInitialData } from 'src/app/core/models/inital-data.model';
 import { GlobalService } from 'src/app/services/global.service';
 import { StorageService } from 'src/app/services/storage.service';
 
@@ -18,24 +19,40 @@ export class FlagFieldsSettingsComponent {
   displayedColumns: string[] = ['Active', 'desc', 'descLocal'];
   ELEMENT_DATA: PeriodicElement[] = [];
 
-  constructor(
-    private globalService: GlobalService,
-    private storage: StorageService,
-    public dialog: MatDialog
-  ) {
-    globalService.initAppRequests().subscribe((data) => {
-      const columnsData = this.storage.getData('userDetails')['columns'];
-      this.ELEMENT_DATA = columnsData
-        .filter((item: any) => item.iconURL !== '')
-        .map((item: any) => ({
-          Active: item.active,
-          desc: item.desc,
-          descLocal: item.descLocal,
-        }));
+  @Input() set initialAppData(initialAppData: IInitialData) {
+    const columnsData = initialAppData.userDetails['columns'];
+    this.ELEMENT_DATA = columnsData
+      .filter((item: any) => item.iconURL !== '')
+      .map((item: any) => ({
+        Active: item.active,
+        desc: item.desc,
+        descLocal: item.descLocal,
+      }));
 
-      console.log(this.ELEMENT_DATA);
-      const dataSource = this.ELEMENT_DATA;
-    });
+    console.log(this.ELEMENT_DATA);
+    const dataSource = this.ELEMENT_DATA;
+  }
+
+  private _initialAppData: IInitialData;
+
+  get initialAppData(): IInitialData {
+    return this._initialAppData;
+  }
+
+  constructor(public dialog: MatDialog) {
+    //DEPRECATED!!!
+    // globalService.initAppRequests().subscribe((data) => {
+    //   const columnsData = this.storage.getData('userDetails')['columns'];
+    //   this.ELEMENT_DATA = columnsData
+    //     .filter((item: any) => item.iconURL !== '')
+    //     .map((item: any) => ({
+    //       Active: item.active,
+    //       desc: item.desc,
+    //       descLocal: item.descLocal,
+    //     }));
+    //   console.log(this.ELEMENT_DATA);
+    //   const dataSource = this.ELEMENT_DATA;
+    // });
   }
 
   toggleLocalDescEditing(element: PeriodicElement) {
