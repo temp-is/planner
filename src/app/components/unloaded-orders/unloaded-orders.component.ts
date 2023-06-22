@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import { GlobalService } from 'src/app/services/global.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { IUnloadedOrders } from 'src/app/shared/models';
@@ -12,6 +13,8 @@ import { IUnloadedOrders } from 'src/app/shared/models';
   styleUrls: ['./unloaded-orders.component.scss'],
 })
 export class UnloadedOrdersComponent {
+  private sub: Subscription = new Subscription();
+
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'determinate';
   value = 50;
@@ -37,15 +40,14 @@ export class UnloadedOrdersComponent {
   ) {}
 
   ngOnInit() {
-    // this.globalService.getunloadedorderstest().subscribe((data) => {
-    //   this.dataSource.data = data['records'];
-    // });
-    this.setUnloadOrderData('');
+    this.sub.add(
+      this.globalService.getWorkCenters$().subscribe((data) => {
+        this.dataSource.data = data['records'];
+      })
+    );
   }
-  public setUnloadOrderData(data: any) {
-    this.globalService.getunloadedorderstest().subscribe((data) => {
-      this.dataSource.data = data['records'];
-      this.changeDetectorRefs.detectChanges();
-    });
+
+  ngOnDestry() {
+    this.sub.unsubscribe();
   }
 }
