@@ -14,11 +14,21 @@ import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { AdminSettingsComponent } from './components/admin-settings/admin-settings.component';
 import { FieldSettingsComponent } from './components/field-settings/field-settings.component';
 import { FlagFieldsSettingsComponent } from './components/flag-fields-settings/flag-fields-settings.component';
+import { BryntumSchedulerModule } from '@bryntum/scheduler-angular';
 
 // Add the import statement for FactoryDetails
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, SelectWorkCenterComponent, UnloadedOrdersComponent, SchedulerComponent, AdminSettingsComponent, FieldSettingsComponent, FlagFieldsSettingsComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    SelectWorkCenterComponent,
+    UnloadedOrdersComponent,
+    SchedulerComponent,
+    AdminSettingsComponent,
+    FieldSettingsComponent,
+    FlagFieldsSettingsComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,6 +36,7 @@ import { FlagFieldsSettingsComponent } from './components/flag-fields-settings/f
     IsComponentsModule,
     MaterialModule,
     HttpClientModule,
+    BryntumSchedulerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
