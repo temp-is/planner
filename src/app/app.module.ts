@@ -11,6 +11,10 @@ import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { UnloadedOrdersComponent } from './components/unloaded-orders/unloaded-orders.component';
 import { SchedulerComponent } from './components/scheduler/scheduler.component';
+import { AdminSettingsComponent } from './components/admin-settings/admin-settings.component';
+import { FieldSettingsComponent } from './components/field-settings/field-settings.component';
+import { FlagFieldsSettingsComponent } from './components/flag-fields-settings/flag-fields-settings.component';
+import { BryntumSchedulerModule } from '@bryntum/scheduler-angular';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
@@ -24,6 +28,9 @@ import { AuthModule } from './auth/auth.module';
     SelectWorkCenterComponent,
     UnloadedOrdersComponent,
     SchedulerComponent,
+    AdminSettingsComponent,
+    FieldSettingsComponent,
+    FlagFieldsSettingsComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +39,7 @@ import { AuthModule } from './auth/auth.module';
     IsComponentsModule,
     MaterialModule,
     HttpClientModule,
+    BryntumSchedulerModule,
     AuthModule,
   ],
   providers: [AuthService, AuthGuard, UnloadedOrdersComponent],
