@@ -7,6 +7,7 @@ import { StorageService } from 'src/app/services/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectWorkCenterComponent } from '../select-work-center/select-work-center.component';
 import { AdminSettingsComponent } from '../admin-settings/admin-settings.component';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +28,7 @@ export class HeaderComponent {
   constructor(
     private globalService: GlobalService,
     private storage: StorageService,
+    private authService: AuthService,
     public dialog: MatDialog
   ) {
     globalService.getInitalAppData().subscribe((data) => {
@@ -82,12 +84,10 @@ export class HeaderComponent {
     console.log('manual buttun clicked');
   }
 
-  public backToDefault() {
-    console.log('back to default');
-  }
+  public backToDefault() {}
 
   public logOut() {
-    console.log('log out clicked');
+    this.authService.logout();
   }
 
   public selectWC() {
