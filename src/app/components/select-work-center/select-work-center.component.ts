@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GlobalService } from 'src/app/services/global.service';
 import { IFactory, IMachine, IWorkCenter } from 'src/app/shared/models';
@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, NgForm } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage.service';
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
+import { UnloadedOrdersComponent } from '../unloaded-orders/unloaded-orders.component';
 
 @Component({
   selector: 'app-select-work-center',
@@ -24,18 +25,20 @@ export class SelectWorkCenterComponent {
 
   constructor(
     private globalService: GlobalService,
-    private storage: StorageService
+    private storage: StorageService,
+    // private unLoadOrdes: UnloadedOrdersComponent,
+    @Optional() public dialogRef: MatDialogRef<SelectWorkCenterComponent>
   ) {}
 
   numbers: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
 
   onFactoryChange(factoryId: string): void {
-    this.globalService.getWorkCenter().subscribe((data) => {
+    this.globalService.getWorkCenter(factoryId).subscribe((data) => {
       this.workCentersArray = data;
     });
   }
   onWorkCenterChange(workCenterId: string): void {
-    this.globalService.getMachine().subscribe((data) => {
+    this.globalService.getMachine(workCenterId).subscribe((data) => {
       this.machineArray = data;
     });
   }
@@ -46,7 +49,10 @@ export class SelectWorkCenterComponent {
   }
 
   public onSubmit(loginForm: NgForm): void {
+    this.dialogRef.close();
     this.showComponent = false;
-    this.globalService.createWorkcenterData(loginForm.value);
+    this.globalService.getunloadedorders(loginForm.value).subscribe((data) => {
+      // this.unLoadOrdes.setUnloadOrderData(data);
+    });
   }
 }
