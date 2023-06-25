@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, forkJoin, map, of, tap } from 'rxjs';
 import { Observable } from 'rxjs';
@@ -28,7 +28,6 @@ export class GlobalService {
   }
 
   public createWorkcenterData(data: any): Observable<{ [key: string]: any }> {
-    debugger;
     return forkJoin({
       //resourceStore: this.http.get(API['getresourcestore']),
       // availability: this.http.get(API['getavailability']),
@@ -39,12 +38,17 @@ export class GlobalService {
   }
 
   public getInitalAppData(): Observable<IInitialData> {
+    const httpOptions = {
+      headers: new HttpHeaders({}),
+      withCredentials: true,
+    };
+
     if (this.initialAppDataSubject$.value)
       return this.initialAppDataSubject$.asObservable();
 
     return forkJoin({
-      userDetails: this.http.get(API['userDetails']),
-      factorylist: this.http.get(API['factorylist']),
+      userDetails: this.http.get(API['userDetails'], httpOptions),
+      factorylist: this.http.get(API['factorylist'], httpOptions),
       // appdefaults: this.http.get(API['appdefaults']),
     }).pipe(
       tap((data) => {
