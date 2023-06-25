@@ -8,5 +8,7 @@ export const API: { [key: string]: any } = {
   workcenterlist: `${baseUrl}index/getworkcenterlist`,
   machielist: `${baseUrl}index/getmachinelist`,
   unloadedOrders: `${baseUrl}index/getunloadedorders`,
+  loadedOrders: `${baseUrl}index/getloadedorders`,
+  resource: `${baseUrl}index/getresourcestore`,
   appdefaults: `${baseUrl}index/getappdefaults`,
 };

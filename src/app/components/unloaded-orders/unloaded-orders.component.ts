@@ -41,7 +41,7 @@ export class UnloadedOrdersComponent {
 
   ngOnInit() {
     this.sub.add(
-      this.globalService.getWorkCenters$().subscribe((data) => {
+      this.globalService.getUnloadedOrders$().subscribe((data) => {
         this.dataSource.data = data['records'];
       })
     );

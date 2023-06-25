@@ -52,8 +52,13 @@ export class SelectWorkCenterComponent {
     this.dialogRef.close();
     this.showComponent = false;
     this.globalService.getunloadedorders(loginForm.value).subscribe((data) => {
-      // this.unLoadOrdes.setUnloadOrderData(data);
-      this.globalService.setWorkCenters(data);
+      this.globalService.setUnloadedOrders$(data);
+    });
+    this.globalService.getloadedorders(loginForm.value).subscribe((data) => {
+      this.globalService.setLoadedOrders$(data);
+    });
+    this.globalService.getresourcestore(loginForm.value).subscribe((data) => {
+      this.globalService.setResurces$(data);
     });
   }
 }
