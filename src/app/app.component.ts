@@ -10,9 +10,12 @@ import { Observable } from 'rxjs';
 export class AppComponent {
   title = 'planner';
   public isAuthenticated$: Observable<boolean>;
+
   constructor(private authService: AuthService) {}
+
   ngOnInit() {
     this.authService.checkIdentity();
     this.isAuthenticated$ = this.authService.isAuthenticated$();
+    console.log('isAuthenticated', this.isAuthenticated$);
   }
 }
