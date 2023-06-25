@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
 
 const modules: Array<any> = [
   MatToolbarModule,
@@ -31,6 +33,8 @@ const modules: Array<any> = [
   MatCheckboxModule,
   MatTableModule,
   MatTabsModule,
+  MatProgressSpinnerModule,
+  MatCardModule,
 ];
 
 @NgModule({

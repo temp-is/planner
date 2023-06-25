@@ -2,7 +2,7 @@
   padding: 15px;
 }
 .table-container {
-  height: 300px; /* Adjust the height as per your requirements */
+  height: 500px; /* Adjust the height as per your requirements */
   overflow: auto;
 }
 table.mat-table {
@@ -12,4 +12,23 @@ table.mat-table {
 td.mat-cell,
 th.mat-header-cell {
   white-space: nowrap; /* Prevent cell content from wrapping */
+}
+.example-h2 {
+  margin: 10px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.example-margin {
+  margin-top: 150px;
+  margin-left: 600px;
+}
+
+.example-card {
+  margin-bottom: 10px;
 }

@@ -1,9 +1,9 @@
 <mat-dialog-content>
-  <div *ngIf="showComponent" class="select-wc" cdkDragBoundary=".main" cdkDrag>
+  <div *ngIf="showComponent" class="selectWc" cdkDragBoundary=".main" cdkDrag>
     <h1 style="padding-right: 10px">Select Work Center</h1>
     <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
       <span style="padding-right: 80px">Factory :</span>
-      <mat-form-field>
+      <mat-form-field style="width: 300px">
         <mat-label>Factory</mat-label>
         <mat-select
           name="factory"
@@ -19,7 +19,7 @@
       </mat-form-field>
       <br />
       <span style="padding-right: 5px">Work Center Type :</span>
-      <mat-form-field>
+      <mat-form-field style="width: 300px">
         <mat-label>Work Center Type</mat-label>
         <mat-select name="workCenterType" [ngModel]>
           <mat-option
@@ -31,7 +31,7 @@
       </mat-form-field>
       <br />
       <span style="padding-right: 45px">Work center :</span>
-      <mat-form-field>
+      <mat-form-field style="width: 300px">
         <mat-label>Work Center</mat-label>
         <mat-select
           name="workCenter"
@@ -47,7 +47,7 @@
       </mat-form-field>
       <br />
       <span style="padding-right: 70px">Machine :</span>
-      <mat-form-field>
+      <mat-form-field style="width: 300px">
         <mat-label>Machine</mat-label>
         <mat-select name="machine" [ngModel]>
           <mat-option

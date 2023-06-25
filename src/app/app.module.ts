@@ -15,6 +15,7 @@ import { AdminSettingsComponent } from './components/admin-settings/admin-settin
 import { FieldSettingsComponent } from './components/field-settings/field-settings.component';
 import { FlagFieldsSettingsComponent } from './components/flag-fields-settings/flag-fields-settings.component';
 import { SchedularToolbarComponent } from './components/schedular-toolbar/schedular-toolbar.component';
+// import { BryntumSchedulerModule } from '@bryntum/scheduler-angular';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
@@ -31,7 +32,6 @@ import { AuthModule } from './auth/auth.module';
     AdminSettingsComponent,
     FieldSettingsComponent,
     FlagFieldsSettingsComponent,
-    SchedularToolbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +40,10 @@ import { AuthModule } from './auth/auth.module';
     IsComponentsModule,
     MaterialModule,
     HttpClientModule,
+    // BryntumSchedulerModule,
     AuthModule,
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, UnloadedOrdersComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,6 +1,10 @@
 {
   "*": {
+<<<<<<< HEAD
     "target": "https://planner-haim.ssl.imc-grp.com:10051/",
+=======
+    "target": "https://planner-rafi.ssl.imc-grp.com:10051/",
+>>>>>>> master
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
