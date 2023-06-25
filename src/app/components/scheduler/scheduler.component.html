@@ -1,8 +1,12 @@
-<bryntum-scheduler
-  #scheduler
-  [resources]="resources"
-  [events]="events"
-  [columns]="schedulerConfig.columns"
-  [startDate]="schedulerConfig.startDate!"
-  [endDate]="schedulerConfig.endDate!"
-></bryntum-scheduler>
+<div class="schedular">
+  <bryntum-scheduler
+    *ngIf="resources.length"
+    #scheduler
+    [resources]="resources"
+    [events]="events"
+    [viewPreset]="myViewPreset"
+    [columns]="schedulerConfig.columns"
+    [startDate]="schedulerConfig.startDate!"
+    [endDate]="schedulerConfig.endDate!"
+  ></bryntum-scheduler>
+</div>

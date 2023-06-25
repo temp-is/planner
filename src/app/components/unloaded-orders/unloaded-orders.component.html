@@ -1,5 +1,5 @@
 <div class="table-container">
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource" *ngIf="dataSource.data.length">
     <!-- Position Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Order Number</th>
