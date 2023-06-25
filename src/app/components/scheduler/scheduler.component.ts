@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { schedulerConfig } from '@app/app.config';
-import { BryntumSchedulerComponent } from '@bryntum/scheduler-angular';
+// import { schedulerConfig } from '@app/app.config';
+// import { BryntumSchedulerComponent } from '@bryntum/scheduler-angular';
 
 @Component({
   selector: 'app-scheduler',
@@ -18,7 +18,7 @@ export class SchedulerComponent {
     { resourceId: 2, startDate: '2022-01-02', endDate: '2022-01-09' },
   ];
 
-  schedulerConfig = schedulerConfig;
-
-  @ViewChild('scheduler') schedulerComponent!: BryntumSchedulerComponent;
+  // schedulerConfig = schedulerConfig;
+  //
+  // @ViewChild('scheduler') schedulerComponent!: BryntumSchedulerComponent;
 }

@@ -32,6 +32,7 @@ import { AuthModule } from './auth/auth.module';
     AdminSettingsComponent,
     FieldSettingsComponent,
     FlagFieldsSettingsComponent,
+    SchedularToolbarComponent,
   ],
   imports: [
     BrowserModule,
