@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class StorageService {
+  clear() {
+    throw new Error('Method not implemented.');
+  }
   constructor(private http: HttpClient) {}
 
   public setData(key: string, value: any): void {

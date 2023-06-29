@@ -9,4 +9,6 @@ export const API: { [key: string]: any } = {
   machielist: `${baseUrl}index/getmachinelist`,
   unloadedOrders: `${baseUrl}index/getunloadedorders`,
   appdefaults: `${baseUrl}index/getappdefaults`,
+  updatecolumns: `${baseUrl}index/updatecolumns`,
+  changeusercompany: `${baseUrl}index/changeusercompany`,
 };

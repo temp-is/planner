@@ -19,6 +19,7 @@ import { BryntumSchedulerModule } from '@bryntum/scheduler-angular';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { MarkLoadedOrdersComponent } from './components/mark-loaded-orders/mark-loaded-orders.component';
 
 // Add the import statement for FactoryDetails
 
@@ -34,6 +35,7 @@ import { AuthModule } from './auth/auth.module';
     FlagFieldsSettingsComponent,
     SchedularToolbarComponent,
     UnloadedOrdersComponent,
+    MarkLoadedOrdersComponent,
   ],
   imports: [
     BrowserModule,

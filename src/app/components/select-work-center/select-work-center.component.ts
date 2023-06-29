@@ -50,6 +50,8 @@ export class SelectWorkCenterComponent {
 
   public onSubmit(loginForm: NgForm): void {
     this.dialogRef.close();
+    debugger;
+    this.storage.setData('workCenter', loginForm.value.workCenter);
     this.showComponent = false;
     this.globalService.getunloadedorders(loginForm.value).subscribe((data) => {
       // this.unLoadOrdes.setUnloadOrderData(data);

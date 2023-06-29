@@ -8,6 +8,7 @@
     </mat-tab>
     <mat-tab label="Flag Fields Settings">
       <app-flag-fields-settings
+        (tableDataUpdated)="onFlagFieldsUpdated($event)"
         [initialAppData]="initialAppData"
       ></app-flag-fields-settings>
     </mat-tab>

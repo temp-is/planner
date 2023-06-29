@@ -4,3 +4,51 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background-color: #ffffff;
+  margin: 0 8px; /* Adjust the margin value to control the spacing between buttons */
+  display: inline-block;
+}
+
+mat-slider {
+  width: 4px;
+}
+
+.example-section {
+  color: black;
+  position: absolute;
+  left: 23.5%;
+  top: 13.5%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-input {
+  border-radius: 28px;
+  height: 26px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #f2f2f2;
+  color: #333;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 240px; /* Adjust the width to fit your layout */
+}

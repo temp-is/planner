@@ -53,19 +53,33 @@ export class HeaderComponent {
     });
   }
 
-  public changeUserCompany() {
-    console.log('change user company');
+  public changeUserCompany(company: string) {
+    const workcentercode =
+      this.storage.getData('workCenter') !== undefined
+        ? this.storage.getData('workCenter')
+        : false;
+    const unlock =
+      this.storage.getData('workCenter') !== undefined
+        ? this.storage.getData('userDetails').CanWrite
+        : false;
+    const clearMFP =
+      this.storage.getData('workCenter') !== undefined ? true : false;
+    console.log(company, workcentercode, unlock, clearMFP);
+    //debugger;
+    this.globalService
+      .changeusercompany(company, workcentercode, unlock, clearMFP)
+      .subscribe((data) => {});
   }
 
   public selectCompany(company: ICompany) {
     // Implement your logic here when a company is selected
 
-    this.company = company.company;
+    this.company = company.company + ' ' + company.desc;
     console.log('Selected company:', company.company);
-    this.changeUserCompany();
+    this.changeUserCompany(this.company);
   }
 
-  public setPlannerInEnglish(language: string) {
+  public switchLang(language: string) {
     if (language == 'english') {
       console.log('choose write in english');
     } else console.log('else language');
@@ -82,9 +96,27 @@ export class HeaderComponent {
 
   public manualBtn() {
     console.log('manual buttun clicked');
+    const link = document.createElement('a');
+    link.href = '/Resources/Docs/PLANNER_MANUAL.pdf';
+    link.target = '_blank';
+    link.download = 'PLANNER_MANUAL.pdf';
+    link.click();
   }
 
-  public backToDefault() {}
+  public backToDefault() {
+    const confirmation = confirm(
+      'This action will cause the page to reload. Are you sure?'
+    );
+    if (confirmation) {
+      // OK button was clicked
+      // Call your function here
+      console.log('5555555');
+    } else {
+      console.log('66666');
+      // Cancel button was clicked or dialog was closed
+      // Handle the cancel action or dialog close event here
+    }
+  }
 
   public logOut() {
     this.authService.logout();
