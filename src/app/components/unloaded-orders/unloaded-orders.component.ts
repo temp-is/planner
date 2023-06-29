@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
@@ -19,18 +19,18 @@ export class UnloadedOrdersComponent {
   mode: ProgressSpinnerMode = 'determinate';
   value = 50;
 
-  public displayedColumns: string[] = [
+  public displayedColumns = [
     'itemNumber',
     'itemDesc',
     'id',
     'orderQuantity',
-    'currentStation',
     'operation',
     'currentOper',
     'requestDate',
     'requestWeek',
     'promiseDate',
   ];
+  public data = [];
 
   public dataSource = new MatTableDataSource<IUnloadedOrders>([]);
 
@@ -43,6 +43,7 @@ export class UnloadedOrdersComponent {
     this.sub.add(
       this.globalService.getUnloadedOrders$().subscribe((data) => {
         this.dataSource.data = data['records'];
+        this.data = data['records'];
       })
     );
   }

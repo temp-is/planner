@@ -49,16 +49,28 @@ export class SelectWorkCenterComponent {
   }
 
   public onSubmit(loginForm: NgForm): void {
+    this.globalService.progressBar = true;
     this.dialogRef.close();
     this.showComponent = false;
+    this.globalService
+      .createworkcenterdata(loginForm.value)
+      .subscribe((data) => {
+        console.log(data, 'createworkcenterdata');
+      });
+    this.globalService.getresourcestore(loginForm.value).subscribe((data) => {
+      this.globalService.setResurces$(data);
+    });
+    this.globalService.getavailability(loginForm.value).subscribe((data) => {
+      this.storage.setData('availability', data);
+    });
+    this.globalService.getHolidays(loginForm.value).subscribe((data) => {
+      this.storage.setData('holidays', data);
+    });
     this.globalService.getunloadedorders(loginForm.value).subscribe((data) => {
       this.globalService.setUnloadedOrders$(data);
     });
     this.globalService.getloadedorders(loginForm.value).subscribe((data) => {
       this.globalService.setLoadedOrders$(data);
-    });
-    this.globalService.getresourcestore(loginForm.value).subscribe((data) => {
-      this.globalService.setResurces$(data);
     });
   }
 }

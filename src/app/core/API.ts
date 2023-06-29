@@ -11,4 +11,7 @@ export const API: { [key: string]: any } = {
   loadedOrders: `${baseUrl}index/getloadedorders`,
   resource: `${baseUrl}index/getresourcestore`,
   appdefaults: `${baseUrl}index/getappdefaults`,
+  createworkcenterdata: `${baseUrl}index/createworkcenterdata`,
+  availability: `${baseUrl}index/getavailability`,
+  getHolidays: `${baseUrl}index/getHolidays`,
 };

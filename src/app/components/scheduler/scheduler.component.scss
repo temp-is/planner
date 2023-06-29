@@ -2,3 +2,25 @@
   overflow: auto;
   height: 550px;
 }
+.center-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 30em !important;
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+  top: 500;
+  left: 500;
+  // position: fixed;
+}
+.bryntum-scheduler {
+  min-height: 30em !important;
+}
+.progress-bar {
+  margin-left: 50%;
+  margin-top: 200px;
+}
