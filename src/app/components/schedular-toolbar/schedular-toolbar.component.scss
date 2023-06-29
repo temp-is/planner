@@ -12,9 +12,20 @@
   margin: 0 8px; /* Adjust the margin value to control the spacing between buttons */
   display: inline-block;
 }
-
-mat-slider {
-  width: 4px;
+::ng-deep {
+  .mat-mdc-slider.mat-warn {
+    width: 4px;
+    --mdc-slider-handle-color: #ffffff;
+    --mdc-slider-focus-handle-color: #515151;
+    --mdc-slider-hover-handle-color: #565656;
+    --mdc-slider-active-track-color: #ffffff;
+    --mdc-slider-inactive-track-color: gray;
+    --mdc-slider-with-tick-marks-active-container-color: #fff;
+    --mdc-slider-with-tick-marks-inactive-container-color: #777777;
+    --mat-mdc-slider-ripple-color: #9c9c9c;
+    --mat-mdc-slider-hover-ripple-color: rgba(222, 222, 222, 0.535);
+    --mat-mdc-slider-focus-ripple-color: rgba(232, 229, 229, 0.614);
+  }
 }
 
 .example-section {
