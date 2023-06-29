@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AuthAPI } from '../core/http/authAPI';
 import { Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,11 @@ export class AuthService {
   //TODO: [fix auth] return true when auth is settled
   private isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(null);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private storage: StorageService
+  ) {}
 
   public isAuthenticated$(): Observable<boolean> {
     return this.isLoggedIn$.asObservable();
@@ -60,6 +65,7 @@ export class AuthService {
   }
 
   public logout(): void {
+    localStorage.removeItem('workCenter');
     this.isLoggedIn$.next(false);
     const route = AuthAPI['logout'];
     const formData = new FormData();

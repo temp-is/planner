@@ -4,7 +4,11 @@
       <th mat-header-cell *matHeaderCellDef>Active</th>
       <td mat-cell *matCellDef="let element">
         <ng-container>
-          <mat-checkbox [checked]="element.Active"></mat-checkbox>
+          <mat-checkbox
+            [checked]="element.Active"
+            [(ngModel)]="element.Active"
+            (change)="updatecolumns(element)"
+          ></mat-checkbox>
         </ng-container>
       </td>
     </ng-container>
@@ -20,6 +24,7 @@
         mat-cell
         *matCellDef="let element"
         (click)="toggleLocalDescEditing(element)"
+        (keydown.enter)="updatecolumns(element)"
       >
         <ng-container *ngIf="element.editingLocalDesc">
           <input

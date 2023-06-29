@@ -4,3 +4,62 @@
 .example-spacer {
   flex: 1 1 auto;
 }
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background-color: #ffffff;
+  margin: 0 8px; /* Adjust the margin value to control the spacing between buttons */
+  display: inline-block;
+}
+::ng-deep {
+  .mat-mdc-slider.mat-warn {
+    width: 4px;
+    --mdc-slider-handle-color: #ffffff;
+    --mdc-slider-focus-handle-color: #515151;
+    --mdc-slider-hover-handle-color: #565656;
+    --mdc-slider-active-track-color: #ffffff;
+    --mdc-slider-inactive-track-color: gray;
+    --mdc-slider-with-tick-marks-active-container-color: #fff;
+    --mdc-slider-with-tick-marks-inactive-container-color: #777777;
+    --mat-mdc-slider-ripple-color: #9c9c9c;
+    --mat-mdc-slider-hover-ripple-color: rgba(222, 222, 222, 0.535);
+    --mat-mdc-slider-focus-ripple-color: rgba(232, 229, 229, 0.614);
+  }
+}
+
+.example-section {
+  color: black;
+  position: absolute;
+  left: 23.5%;
+  top: 13.5%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-input {
+  border-radius: 28px;
+  height: 26px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #f2f2f2;
+  color: #333;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 240px; /* Adjust the width to fit your layout */
+}

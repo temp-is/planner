@@ -1,10 +1,49 @@
-<mat-toolbar color="primary">
-  <span>Planner |</span>
-  {{ company }}
-  <button mat-button (click)="openDialog()">Select W.C</button>
-  <span>|</span>
-  <button mat-button [matMenuTriggerFor]="userOptions">{{ userName }}</button>
-  <mat-menu #userOptions="matMenu">
+<mat-toolbar
+  color="primary"
+  style="
+    background-color: gray; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to bottom right, #878787, #d0cdcc);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    position: relative;
+    border-radius: 20px 20px 0 0;
+  "
+>
+  <span style="font-size: 30px" class="logo">
+    <img
+      src="../../../assets/images/planner-favicon.png"
+      alt="Logo"
+      style="
+        vertical-align: middle;
+        margin-right: 5px;
+        width: 30px;
+        height: 30px;
+      "
+    />
+
+    Planner</span
+  >
+  <span style="position: relative; left: 0.5%" class="separator"></span>
+  <span style="position: relative; left: 1%">{{ company }}</span>
+
+  <button
+    mat-button
+    style="position: relative; left: 68%"
+    (click)="openDialog()"
+  >
+    Select W.C
+  </button>
+  <span style="position: relative; left: 68%"
+    ><span class="separator"></span
+  ></span>
+  <button
+    mat-button
+    style="position: relative; left: 68%"
+    [matMenuTriggerFor]="userOptions"
+  >
+    {{ userName }}
+  </button>
+  <mat-menu #userOptions="matMenu" style="z-index: 10000">
     <button mat-menu-item [matMenuTriggerFor]="settings">Settings</button>
     <button mat-menu-item (click)="adminSettings()">Admin Settings</button>
     <button mat-menu-item (click)="manualBtn()">Manual</button>
@@ -22,12 +61,8 @@
   </mat-menu>
 
   <mat-menu #language="matMenu">
-    <button mat-menu-item (click)="setPlannerInEnglish('english')">
-      English
-    </button>
-    <button mat-menu-item (click)="setPlannerInEnglish(' ')">
-      Local language
-    </button>
+    <button mat-menu-item (click)="switchLang('english')">English</button>
+    <button mat-menu-item (click)="switchLang(' ')">Local language</button>
   </mat-menu>
 
   <mat-menu #changeCompany="matMenu">
@@ -40,5 +75,9 @@
     </button>
   </mat-menu>
 
-  <button mat-button (click)="logOut()">Log out</button>
+  <span style="position: relative; left: 68%" class="separator"></span>
+
+  <button style="position: relative; left: 68%" mat-button (click)="logOut()">
+    Log out
+  </button>
 </mat-toolbar>

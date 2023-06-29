@@ -82,6 +82,39 @@ export class GlobalService {
     return this.http.get<IMachine[]>(API['machielist'], httpOptions);
   }
 
+  public updatecolumns(fieldArr: any, filterArr: any): Observable<string> {
+    const params = new HttpParams()
+      .append('fieldArr', JSON.stringify(fieldArr))
+      .append('filterArr', JSON.stringify(filterArr));
+    const httpOptions = {
+      headers: new HttpHeaders({}),
+      withCredentials: true,
+      params: params,
+    };
+
+    return this.http.get<'sd'>(API['updatecolumns'], httpOptions);
+  }
+
+  public changeusercompany(
+    company: string,
+    workcentercode: string,
+    unlock: boolean,
+    clearMFP: boolean
+  ): Observable<string> {
+    const params = new HttpParams()
+      .append('company', company)
+      .append('workcentercode', workcentercode)
+      .append('unlock', JSON.stringify(unlock))
+      .append('clearMFP', JSON.stringify(clearMFP));
+    const httpOptions = {
+      headers: new HttpHeaders({}),
+      withCredentials: true,
+      params: params,
+    };
+
+    return this.http.get<'sd'>(API['changeusercompany'], httpOptions);
+  }
+
   public getunloadedorders(data: any): Observable<IUnloadedOrders[]> {
     const params = new HttpParams()
       .append('getWcn', data.workCenter)

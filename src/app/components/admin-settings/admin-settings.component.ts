@@ -19,6 +19,7 @@ export class AdminSettingsComponent implements OnInit {
   fieldSettingsArray1: IFieldSettings[] = [];
 
   private updatedDataFields: Array<any> = [];
+  private flagFieldsArray: Array<any> = [];
 
   constructor(private globalService: GlobalService) {}
 
@@ -26,6 +27,13 @@ export class AdminSettingsComponent implements OnInit {
     // Handle the updated data here
     console.log(updatedData);
     this.updatedDataFields = updatedData;
+    // You can perform further actions with the updated data, such as sending it to an API or manipulating it as needed.
+  }
+
+  onFlagFieldsUpdated(updatedData: any[]) {
+    // Handle the updated data here
+    console.log(updatedData);
+    this.flagFieldsArray = updatedData;
     // You can perform further actions with the updated data, such as sending it to an API or manipulating it as needed.
   }
 
@@ -37,7 +45,10 @@ export class AdminSettingsComponent implements OnInit {
 
   public updatecolumns() {
     console.log('field settings array: ', this.updatedDataFields);
-    this.fieldSettingsArray1 = this.fieldSettingsArray.getFieldSettingsArray();
-    console.log(this.fieldSettingsArray1);
+    console.log('field settings array: ', this.flagFieldsArray);
+    //debugger;
+    this.globalService
+      .updatecolumns(this.updatedDataFields, this.flagFieldsArray)
+      .subscribe((data) => {});
   }
 }

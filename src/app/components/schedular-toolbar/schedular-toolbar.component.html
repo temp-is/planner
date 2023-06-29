@@ -1,3 +1,145 @@
-<mat-toolbar color="primary">
-  <button mat-button>Select W.C</button>
+<mat-toolbar
+  color="primary"
+  style="
+    background-color: gray; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to bottom right, #d5d5d5, #e9e9e9);
+  "
+>
+  <button mat-button (click)="onReloadBtn()" title="Reload Data">
+    <mat-icon>sync</mat-icon>
+  </button>
+
+  <span class="separator"></span>
+
+  <button mat-button (click)="onZoomOut()" title="Zoom Out">
+    <mat-icon> zoom_out </mat-icon>
+  </button>
+
+  <mat-slider color="warn">
+    <input matSliderThumb class="custom-thumb" />
+  </mat-slider>
+
+  <button mat-button (click)="onZoomIn()" title="Zoom In">
+    <mat-icon> zoom_in </mat-icon>
+  </button>
+
+  <span class="separator"></span>
+
+  <button mat-button (click)="onCurrentTime()" title="Current Time">
+    <mat-icon> access_time </mat-icon>
+  </button>
+
+  <span class="separator"></span>
+
+  <button mat-button (click)="onMarkEvents()" title="Mark Orders">
+    <mat-icon> bookmark_border </mat-icon>
+  </button>
+
+  <div *ngIf="showCheckboxSection">
+    <section class="example-section" [formGroup]="toppings">
+      <p><mat-checkbox formControlName="pepperoni">Pepperoni</mat-checkbox></p>
+      <p>
+        <mat-checkbox formControlName="extracheese">Extra Cheese</mat-checkbox>
+      </p>
+      <p><mat-checkbox formControlName="mushroom">Mushroom</mat-checkbox></p>
+    </section>
+  </div>
+
+  <input
+    class="custom-input"
+    style="position: relative; left: 1%"
+    type="text"
+    placeholder="Go To Order"
+    #goToOrderInput
+    (keyup.enter)="onGotoOrderIdBtn(goToOrderInput.value)"
+  />
+
+  <input
+    class="custom-input"
+    style="position: relative; left: 2%"
+    type="text"
+    placeholder="Search By Text"
+    #searchByTextInput
+    (keyup.enter)="onGotoOrderDscBtn(searchByTextInput.value)"
+  />
+
+  <button
+    style="position: relative; left: 12%"
+    mat-button
+    (click)="toolingStockWin()"
+    title="Tooling Stock"
+  >
+    Tooling stock
+  </button>
+
+  <span style="position: relative; left: 12%" class="separator"></span>
+
+  <button
+    style="position: relative; left: 12%"
+    mat-button
+    (click)="setupEmployeeOnShiftWin()"
+    title="Number Of Employee"
+  >
+    <mat-icon>person</mat-icon>
+  </button>
+
+  <span style="position: relative; left: 12%" class="separator"></span>
+
+  <button
+    style="position: relative; left: 12%"
+    mat-button
+    (click)="onNonWorkingTime()"
+    title="Planned Non Working Times"
+  >
+    <mat-icon>date_range</mat-icon>
+  </button>
+
+  <span style="position: relative; left: 12%" class="separator"></span>
+
+  <button
+    style="position: relative; left: 12%"
+    mat-button
+    (click)="onNightSetup()"
+    title="Night SetUp"
+  >
+    Night setup
+  </button>
+
+  <span style="position: relative; left: 12%" class="separator"></span>
+
+  <button
+    style="position: relative; left: 12%"
+    mat-button
+    (click)="onLoadedOrdersGrid()"
+    title="Print"
+  >
+    <mat-icon>print</mat-icon>
+  </button>
+
+  <span style="position: relative; left: 12%" class="separator"></span>
+
+  <button
+    style="position: relative; left: 12%"
+    mat-button
+    [matMenuTriggerFor]="chooseFieldsToView"
+    title="Choose Fields To View"
+  >
+    <mat-icon>pageview</mat-icon>
+  </button>
+
+  <mat-menu #chooseFieldsToView="matMenu">
+    <button mat-menu-item (click)="onShowIndexTooltip()">
+      Show view indexes
+    </button>
+  </mat-menu>
+
+  <span style="position: relative; left: 12%" class="separator"></span>
+
+  <button
+    style="position: relative; left: 12%; color: black"
+    mat-button
+    (click)="onSaveBtn()"
+  >
+    Save
+  </button>
 </mat-toolbar>

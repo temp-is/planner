@@ -92,31 +92,7 @@ export class FieldSettingsComponent {
 
   public fieldSettingsArray: IFieldSettings[] = [];
 
-  constructor(public dialog: MatDialog) {
-    //DEPRECATED!!!
-    // globalService.initAppRequests().subscribe((data) => {
-    //   const columnsData = this.storage.getData('userDetails')['columns'];
-    //   this.ELEMENT_DATA = columnsData
-    //     .filter((item: any) => item.iconURL === '')
-    //     .map((item: any) => ({
-    //       Active: item.active,
-    //       desc: item.desc,
-    //       descLocal: item.descLocal,
-    //       defaultMode: item.defaultMode === true ? 'Yes' : 'No',
-    //       width: parseInt(item.width),
-    //       displayType:
-    //         item.displayType === 'B'
-    //           ? 'Loaded + Unloaded Orders'
-    //           : item.displayType === 'L'
-    //           ? 'Loaded Orders'
-    //           : item.displayType === 'U'
-    //           ? 'Unloaded Orders'
-    //           : '',
-    //     }));
-    //   console.log(this.ELEMENT_DATA);
-    //   const dataSource = this.ELEMENT_DATA;
-    // });
-  }
+  constructor(public dialog: MatDialog) {}
 
   shouldDisplayCheckbox(element: any): boolean {
     return (
@@ -137,35 +113,49 @@ export class FieldSettingsComponent {
   }
 
   updatecolumns(element: any) {
-    console.log(element.Active);
     const elementtmp = { ...element };
+    const newVariable: IFieldSettings = {
+      active: '',
+      descLocal: '',
+      displayType: '',
+      defaultMode: '',
+      width: 0,
+      id: '',
+    };
     if (elementtmp.displayType === 'Loaded Orders')
-      elementtmp.displayType = 'L';
+      newVariable.displayType = 'L';
     if (elementtmp.displayType === 'Loaded + Unloaded Orders')
-      elementtmp.displayType = 'B';
+      newVariable.displayType = 'B';
     if (elementtmp.displayType === 'Unloaded Orders')
-      elementtmp.displayType = 'U';
+      newVariable.displayType = 'U';
 
-    if (elementtmp.defaultMode === 'Yes') elementtmp.defaultMode = 'Y';
-    if (elementtmp.defaultMode === 'No') elementtmp.defaultMode = '';
+    if (elementtmp.defaultMode === 'Yes') newVariable.defaultMode = 'Y';
+    if (elementtmp.defaultMode === 'No') newVariable.defaultMode = '';
+
+    if (elementtmp.Active === true) newVariable.active = '';
+    if (elementtmp.Active === false) newVariable.active = 'N';
+
+    newVariable.descLocal = elementtmp.descLocal;
+    newVariable.id = elementtmp.id;
+    newVariable.width = elementtmp.width;
 
     if (this.fieldSettingsArray.length === 0) {
       console.log('first added');
-      console.log(elementtmp);
-      this.fieldSettingsArray.push(elementtmp);
+      console.log(newVariable);
+      this.fieldSettingsArray.push(newVariable);
     } else {
       const existingIndex = this.fieldSettingsArray.findIndex(
-        (element1) => element1.id === elementtmp.id
+        (element1) => element1.id === newVariable.id
       );
 
       if (existingIndex !== -1) {
         console.log('exist in the array');
-        this.fieldSettingsArray[existingIndex] = elementtmp;
+        this.fieldSettingsArray[existingIndex] = newVariable;
         console.log('the index:');
         console.log(existingIndex);
       } else {
         console.log('pushed to the array ');
-        this.fieldSettingsArray.push(elementtmp);
+        this.fieldSettingsArray.push(newVariable);
       }
     }
     this.tableDataUpdated.emit(this.fieldSettingsArray);
