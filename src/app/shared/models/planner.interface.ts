@@ -212,6 +212,7 @@ export interface ILoadedOrders {
   twinId: string;
   operation: string;
   Name: string;
+  name: string;
   itemNumber: string;
   itemDesc: string;
   itemGrade: string;
@@ -312,4 +313,27 @@ export interface IResource {
   desc: string;
   Group: string;
   name: string;
+}
+
+export interface ICreateworkcenterdata {
+  errMsg: string;
+  locked_by: string;
+  ok: string;
+}
+
+export interface ICreateworkcenterdata {
+  errMsg: string;
+  locked_by: string;
+  ok: string;
+}
+
+export interface IAvailability {
+  endDate: string;
+  resourceId: string;
+  startDate: string;
+}
+
+export interface IHolidays {
+  EndHTime: string;
+  HolidayDate: string;
 }

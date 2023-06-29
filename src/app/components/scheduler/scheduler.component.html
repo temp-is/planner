@@ -1,13 +1,27 @@
 <div class="schedular">
-  <app-schedular-toolbar></app-schedular-toolbar>
-  <bryntum-scheduler
-    *ngIf="resources.length"
-    #scheduler
-    [resources]="resources"
-    [events]="events"
-    [viewPreset]="myViewPreset"
-    [columns]="schedulerConfig.columns"
-    [startDate]="schedulerConfig.startDate!"
-    [endDate]="schedulerConfig.endDate!"
-  ></bryntum-scheduler>
+  <!-- <app-schedular-toolbar></app-schedular-toolbar> -->
+
+  <mat-progress-spinner
+    class="progress-bar"
+    mode="indeterminate"
+    *ngIf="globalService.progressBar; else project"
+  >
+  </mat-progress-spinner>
+  <ng-template #project class="bryntum-scheduler">
+    <bryntum-project-model
+      #project
+      [resources]="resources"
+      [events]="events"
+      [assignments]="assignments"
+      [dependencies]="dependencies"
+    ></bryntum-project-model>
+
+    <bryntum-scheduler-pro
+      #schedulerpro
+      [columns]="schedulerProConfig.columns"
+      [startDate]="schedulerProConfig.startDate!"
+      [endDate]="schedulerProConfig.endDate!"
+      [project]="project"
+    ></bryntum-scheduler-pro>
+  </ng-template>
 </div>

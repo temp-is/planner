@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@bryntum/scheduler/scheduler.stockholm.css";
+@import "~@bryntum/schedulerpro/schedulerpro.stockholm.css";
 html,
 body {
   height: 100%;
@@ -7,4 +7,16 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+body,
+html {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Poppins, "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+}
+app-root {
+  flex: 1 1 100%;
 }

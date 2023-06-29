@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, forkJoin, map, of, tap } from 'rxjs';
 import { Observable } from 'rxjs';
 import {
+  IAvailability,
+  ICreateworkcenterdata,
+  IHolidays,
   ILoadedOrders,
   IMachine,
   IResource,
@@ -24,6 +27,7 @@ export class GlobalService {
   private LoadedOrders$: Subject<ILoadedOrders[]> = new Subject();
   private Resurce$: Subject<IResource[]> = new Subject();
   private preloadMch: boolean = false;
+  public progressBar: boolean = false;
 
   public getUnloadedOrders$(): Observable<IUnloadedOrders[]> {
     return this.UnloadedOrders$.asObservable();
@@ -124,6 +128,41 @@ export class GlobalService {
     return this.http.get<ILoadedOrders[]>(API['loadedOrders'], httpOptions);
   }
 
+  public createworkcenterdata(data: any): Observable<ICreateworkcenterdata> {
+    const params = new HttpParams()
+      .append('workcentercode', data.workCenter)
+      .append('factoryCode', data.factory)
+      .append('machines', data.machine)
+      .append('includeOffOpr', data.includeOfficeCheckBox)
+      .append('numOfOprBfr', 5)
+      .append('viewMode', data.viewModeCheckBox)
+      .append('lockWC', true);
+    const httpOptions = {
+      headers: new HttpHeaders({}),
+      withCredentials: true,
+      params: params,
+    };
+    return this.http.get<ICreateworkcenterdata>(
+      API['createworkcenterdata'],
+      httpOptions
+    );
+  }
+
+  public getavailability(data: any): Observable<IAvailability[]> {
+    const params = new HttpParams()
+      .append('workCenterCode', data.workCenter)
+      .append('machines', data.machine)
+      .append('page', 1)
+      .append('start', 0)
+      .append('limit', 500);
+    const httpOptions = {
+      headers: new HttpHeaders({}),
+      withCredentials: true,
+      params: params,
+    };
+    return this.http.get<IAvailability[]>(API['availability'], httpOptions);
+  }
+
   public getresourcestore(data: any): Observable<IResource[]> {
     if (this.storage.getData('userDetails').defaultValues.PRELOAD != '') {
       this.preloadMch = true;
@@ -135,13 +174,23 @@ export class GlobalService {
       .append('localLang', true)
       .append('page', 1)
       .append('start', 0)
-      .append('limit', 500);
+      .append('limit', 500)
+      .append('isAngular', true);
     const httpOptions = {
       headers: new HttpHeaders({}),
       withCredentials: true,
       params: params,
     };
     return this.http.get<IResource[]>(API['resource'], httpOptions);
+  }
+  public getHolidays(data: any): Observable<IHolidays[]> {
+    const params = new HttpParams().append('factoryCode', data.factory);
+    const httpOptions = {
+      headers: new HttpHeaders({}),
+      withCredentials: true,
+      params: params,
+    };
+    return this.http.get<IHolidays[]>(API['getHolidays'], httpOptions);
   }
 
   public getInitalAppData(): Observable<IInitialData> {
