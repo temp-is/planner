@@ -19,6 +19,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BryntumSchedulerProModule } from '@bryntum/schedulerpro-angular';
 
 const modules: Array<any> = [
   MatToolbarModule,
@@ -39,6 +40,7 @@ const modules: Array<any> = [
   MatCardModule,
   MatSliderModule,
   ReactiveFormsModule,
+  BryntumSchedulerProModule,
 ];
 
 @NgModule({

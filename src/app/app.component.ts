@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { Observable } from 'rxjs';
+import { StorageService } from './services/storage.service';
+import { GlobalService } from './services/global.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
   title = 'planner';
+  public globalService: GlobalService;
   public isAuthenticated$: Observable<boolean>;
 
   constructor(private authService: AuthService) {}
