@@ -1,5 +1,5 @@
 <div class="schedular">
-  <app-schedular-toolbar></app-schedular-toolbar>
+  <app-schedular-toolbar class="sticky-toolbar"></app-schedular-toolbar>
 
   <mat-progress-spinner
     class="progress-bar"
@@ -22,6 +22,7 @@
       [startDate]="schedulerProConfig.startDate!"
       [endDate]="schedulerProConfig.endDate!"
       [project]="project"
+      [viewPreset]="viewPreset"
     ></bryntum-scheduler-pro>
   </ng-template>
 </div>

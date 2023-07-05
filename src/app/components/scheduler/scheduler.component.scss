@@ -1,5 +1,4 @@
 .schedular {
-  overflow: auto;
   height: 550px;
 }
 .center-screen {
@@ -9,6 +8,12 @@
   text-align: center;
   min-height: 30em !important;
 }
+
+.sticky-toolbar {
+  position: sticky;
+  top: 0;
+}
+
 .overlay {
   height: 100%;
   width: 100%;
