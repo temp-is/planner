@@ -51,7 +51,7 @@ export class SelectWorkCenterComponent {
   public onSubmit(loginForm: NgForm): void {
     this.globalService.progressBar = true;
     this.dialogRef.close();
-    debugger;
+    //debugger;
     this.storage.setData('workCenter', loginForm.value.workCenter);
     this.showComponent = false;
     this.globalService

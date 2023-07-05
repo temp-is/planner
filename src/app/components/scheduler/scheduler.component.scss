@@ -9,6 +9,12 @@
   text-align: center;
   min-height: 30em !important;
 }
+
+.sticky-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
 .overlay {
   height: 100%;
   width: 100%;
@@ -23,4 +29,34 @@
 .progress-bar {
   margin-left: 50%;
   margin-top: 200px;
+}
+
+/* Customize scrollbar */
+.schedular::-webkit-scrollbar {
+  width: 10px;
+}
+
+.schedular::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+.schedular::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+/* Customize scrollbar */
+.bryntumSchedular::-webkit-scrollbar {
+  width: 10px;
+}
+
+.bryntumSchedular::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+.bryntumSchedular::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
