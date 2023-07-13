@@ -1,14 +1,31 @@
-import { Component, NgModule, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgModule, ViewChild } from '@angular/core';
 import { schedulerProConfig, projectConfig } from '@app/app.config';
 import { GlobalService } from '@app/services/global.service';
 import { StorageService } from '@app/services/storage.service';
 import { Observable, Subscription } from 'rxjs';
+import { CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
+
 import {
   BryntumSchedulerProComponent,
   BryntumProjectModelComponent,
 } from '@bryntum/schedulerpro-angular';
-import { ViewPreset, SchedulerPro } from '@bryntum/schedulerpro';
-import { ILoadedOrders } from '@app/shared/models/planner.interface';
+import {
+  ViewPreset,
+  SchedulerPro,
+  DragHelper,
+  DomClassList,
+} from '@bryntum/schedulerpro';
+import {
+  ILoadedOrders,
+  IUnloadedOrders,
+} from '@app/shared/models/planner.interface';
+import { Toast } from '@bryntum/schedulerpro/schedulerpro.umd.js'; // Adjust the import path as needed
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { MyDrag } from '@app/core/services/my-drag';
 
 @Component({
   selector: 'app-scheduler',
@@ -16,10 +33,13 @@ import { ILoadedOrders } from '@app/shared/models/planner.interface';
   styleUrls: ['./scheduler.component.scss'],
 })
 export class SchedulerComponent {
+  dropTargetRef: any;
   constructor(
     public globalService: GlobalService,
     private storage: StorageService
-  ) {}
+  ) {
+    this.onChange = this.onChange.bind(this);
+  }
   private sub: Subscription = new Subscription();
 
   public viewPreset = new ViewPreset({
@@ -35,6 +55,7 @@ export class SchedulerComponent {
       unit: 'hour', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
       increment: 1,
     },
+
     headers: [
       // This defines your header, you must include a "middle" object, and top/bottom are optional.
       {
@@ -45,6 +66,7 @@ export class SchedulerComponent {
         // For each row you can define "unit", "increment", "dateFormat", "renderer", "align", and "scope"
         unit: 'hour',
         dateFormat: 'G',
+
         renderer: function (start, end, headerConfig) {
           var hour = start.getHours();
           var cls;
@@ -93,12 +115,38 @@ export class SchedulerComponent {
   public oldEvent = null;
   public newstart = null;
   public newend = new Date();
+  public dd: DragHelper;
 
   @ViewChild('schedulerpro')
   schedulerProComponent!: BryntumSchedulerProComponent;
   @ViewChild('project') projectComponent!: BryntumProjectModelComponent;
+  @ViewChild('dropTarget') dropTarget!: any;
 
   ngOnInit() {
+    setTimeout(() => {
+      console.log(this.schedulerProComponent);
+      // this.schedulerProComponent.onEventDrop.subscribe((data) => {
+      //   debugger;
+      // });
+
+      const drag = new MyDrag(this.SchedulerPro);
+    }, 3000);
+
+    this.sub.add(
+      this.globalService.getOrderNumber$().subscribe((data) => {
+        //debugger;
+        this.onChange({ value: data });
+      })
+    );
+
+    this.sub.add(
+      this.globalService.getOrderFromUnloaded$().subscribe((data) => {
+        //debugger;
+        this.onDropFromUnloadedOrders({ value: data });
+      })
+    );
+
+    //debugger;
     this.sub.add(
       this.globalService.getLoadedOrders$().subscribe((data) => {
         console.log(data, 'loadedOrders');
@@ -107,7 +155,9 @@ export class SchedulerComponent {
         for (var i = 0; i < data.length; i++) {
           this.newstart = null;
           this.calcEvents.push(this.sortAllOrders(data[i], data[i - 1]));
+          //check the color of the order
         }
+
         this.events = this.calcEvents;
 
         console.log('calcEvents', this.calcEvents);
@@ -117,6 +167,8 @@ export class SchedulerComponent {
             resource: data[i].resourceId,
           });
         }
+        console.log('assignments:');
+        console.log(this.assignments);
         this.globalService.progressBar = false;
       })
     );
@@ -229,4 +281,66 @@ export class SchedulerComponent {
       return durationInMin;
     }
   }
+
+  onChange({ value }) {
+    let value1 = value.value;
+    value1 = value1.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (value.kind === 'id') {
+      if (value1 !== '') {
+        var e = [];
+        for (var i = 0, l = this.events.length; i < l; i++) {
+          if (this.events[i].name === value1) {
+            this.events[i].eventStyle = 'colored';
+            //this.events[i].eventStyle = 'border';
+          } else {
+            this.events[i].eventStyle = '';
+          }
+          e.push(this.events[i]);
+        }
+
+        this.events = e;
+      } else {
+        this.events = this.storage.getData('loadedOrders');
+      }
+    } else {
+      if (value1 !== '') {
+        var e = [];
+        for (var i = 0, l = this.events.length; i < l; i++) {
+          if (this.events[i].itemDesc === value.value) {
+            this.events[i].eventStyle = 'colored';
+            //this.events[i].eventStyle = 'border';
+          } else {
+            this.events[i].eventStyle = '';
+          }
+          e.push(this.events[i]);
+        }
+
+        this.events = e;
+      } else {
+        this.events = this.storage.getData('loadedOrders');
+      }
+    }
+  }
+
+  public onDrop(event: CdkDragDrop<string[]>) {
+    const droppedOrderId = event.item.data;
+    console.log('Dropped Order ID:', droppedOrderId);
+
+    // Perform any actions you need with the dropped order in the app-scheduler component
+    // ...
+  }
+
+  public dropTable(event: CdkDragDrop<IUnloadedOrders[]>) {
+    if (event.previousContainer === event.container) {
+      // If the row is dropped back into the same container (table), do nothing
+      return;
+    }
+
+    // Handle row dropping outside the table
+    console.log('that ok');
+    // moveItemInArray(this.data, event.previousIndex, event.currentIndex);
+    // this.dataSource.data = this.data;
+  }
+
+  onDropFromUnloadedOrders({ value }) {}
 }

@@ -73,6 +73,7 @@ export class SelectWorkCenterComponent {
     });
     this.globalService.getloadedorders(loginForm.value).subscribe((data) => {
       this.globalService.setLoadedOrders$(data);
+      this.storage.setData('loadedOrders', data);
     });
   }
 }

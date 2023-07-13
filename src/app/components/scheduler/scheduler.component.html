@@ -3,8 +3,7 @@
     class="progress-bar"
     mode="indeterminate"
     *ngIf="globalService.progressBar; else project"
-  >
-  </mat-progress-spinner>
+  ></mat-progress-spinner>
   <ng-template #project class="bryntum-scheduler">
     <bryntum-project-model
       #project
@@ -12,15 +11,26 @@
       [events]="events"
       [assignments]="assignments"
       [dependencies]="dependencies"
-    ></bryntum-project-model>
+    >
+    </bryntum-project-model>
 
     <bryntum-scheduler-pro
       #schedulerpro
+      class="app-scheduler"
+      cdkDropList
+      (cdkDropListDropped)="onDrop($event)"
       [columns]="schedulerProConfig.columns"
       [startDate]="schedulerProConfig.startDate!"
       [endDate]="schedulerProConfig.endDate!"
+      [listeners]="schedulerProConfig.listeners"
+      [features]="schedulerProConfig.features"
       [project]="project"
       [viewPreset]="viewPreset"
-    ></bryntum-scheduler-pro>
+    >
+    </bryntum-scheduler-pro>
   </ng-template>
+  <app-unloaded-orders></app-unloaded-orders>
+  <div cdkDropList (cdkDropListDropped)="dropTable($event)">
+    <!-- Render dropped rows here -->
+  </div>
 </div>
