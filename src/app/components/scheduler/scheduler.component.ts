@@ -1,8 +1,16 @@
-import { Component, NgModule, Optional, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  NgModule,
+  Optional,
+  ViewChild,
+} from '@angular/core';
 import { schedulerProConfig, projectConfig } from '@app/app.config';
 import { GlobalService } from '@app/services/global.service';
 import { StorageService } from '@app/services/storage.service';
 import { Observable, Subscription } from 'rxjs';
+import { CdkDragDrop, CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
+
 import {
   BryntumSchedulerProComponent,
   BryntumProjectModelComponent,
@@ -12,10 +20,14 @@ import { LocaleManager } from '@bryntum/schedulerpro/schedulerpro.module.js';
 
 import { ViewPreset, SchedulerPro, DateHelper } from '@bryntum/schedulerpro';
 
-import { ILoadedOrders } from '@app/shared/models/planner.interface';
+import {
+  ILoadedOrders,
+  IUnloadedOrders,
+} from '@app/shared/models/planner.interface';
 import { SchedulerUnits } from '@app/core/consts';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { MyDrag } from '@app/core/services/my-drag';
 
 @Component({
   selector: 'app-scheduler',
@@ -23,12 +35,15 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./scheduler.component.scss'],
 })
 export class SchedulerComponent {
+  dropTargetRef: any;
   constructor(
     public globalService: GlobalService,
     private storage: StorageService,
 
     @Optional() public dialogRef: MatDialogRef<SchedulerComponent>
-  ) {}
+  ) {
+    this.onChange = this.onChange.bind(this);
+  }
   private sub: Subscription = new Subscription();
   public dataSource;
   public showDialog: boolean = false;
@@ -144,6 +159,7 @@ export class SchedulerComponent {
       unit: 'hour', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
       increment: 1,
     },
+
     headers: [
       // This defines your header, you must include a "middle" object, and top/bottom are optional.
       {
@@ -208,8 +224,33 @@ export class SchedulerComponent {
   @ViewChild('schedulerpro')
   schedulerProComponent!: BryntumSchedulerProComponent;
   @ViewChild('project') projectComponent!: BryntumProjectModelComponent;
+  @ViewChild('dropTarget') dropTarget!: any;
 
   ngOnInit() {
+    setTimeout(() => {
+      console.log(this.schedulerProComponent);
+      // this.schedulerProComponent.onEventDrop.subscribe((data) => {
+      //   debugger;
+      // });
+
+      const drag = new MyDrag(this.SchedulerPro);
+    }, 3000);
+
+    this.sub.add(
+      this.globalService.getOrderNumber$().subscribe((data) => {
+        //debugger;
+        this.onChange({ value: data });
+      })
+    );
+
+    this.sub.add(
+      this.globalService.getOrderFromUnloaded$().subscribe((data) => {
+        //debugger;
+        this.onDropFromUnloadedOrders({ value: data });
+      })
+    );
+
+    //debugger;
     this.sub.add(
       this.globalService.getLoadedOrders$().subscribe((data) => {
         console.log(data, 'loadedOrders');
@@ -218,7 +259,9 @@ export class SchedulerComponent {
         for (var i = 0; i < data.length; i++) {
           this.newstart = null;
           this.calcEvents.push(this.sortAllOrders(data[i], data[i - 1]));
+          //check the color of the order
         }
+
         this.events = this.calcEvents;
         console.log('calcEvents', this.calcEvents);
         for (var i = 0; i < data.length; i++) {
@@ -227,6 +270,8 @@ export class SchedulerComponent {
             resource: data[i].resourceId,
           });
         }
+        console.log('assignments:');
+        console.log(this.assignments);
         this.globalService.progressBar = false;
       })
     );
@@ -426,4 +471,65 @@ export class SchedulerComponent {
   //     }
 
   // };
+
+  onChange({ value }) {
+    let value1 = value.value;
+    value1 = value1.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    if (value.kind === 'id') {
+      if (value1 !== '') {
+        var e = [];
+        for (var i = 0, l = this.events.length; i < l; i++) {
+          if (this.events[i].name === value1) {
+            this.events[i].eventStyle = 'colored';
+            //this.events[i].eventStyle = 'border';
+          } else {
+            this.events[i].eventStyle = '';
+          }
+          e.push(this.events[i]);
+        }
+
+        this.events = e;
+      } else {
+        this.events = this.storage.getData('loadedOrders');
+      }
+    } else {
+      if (value1 !== '') {
+        var e = [];
+        for (var i = 0, l = this.events.length; i < l; i++) {
+          if (this.events[i].itemDesc === value.value) {
+            this.events[i].eventStyle = 'colored';
+            //this.events[i].eventStyle = 'border';
+          } else {
+            this.events[i].eventStyle = '';
+          }
+          e.push(this.events[i]);
+        }
+
+        this.events = e;
+      } else {
+        this.events = this.storage.getData('loadedOrders');
+      }
+    }
+  }
+
+  public onDrop(event: CdkDragDrop<string[]>) {
+    const droppedOrderId = event.item.data;
+    console.log('Dropped Order ID:', droppedOrderId);
+
+    // Perform any actions you need with the dropped order in the app-scheduler component
+    // ...
+  }
+
+  public dropTable(event: CdkDragDrop<IUnloadedOrders[]>) {
+    if (event.previousContainer === event.container) {
+      // If the row is dropped back into the same container (table), do nothing
+      return;
+    }
+
+    // Handle row dropping outside the table
+    console.log('that ok');
+    // moveItemInArray(this.data, event.previousIndex, event.currentIndex);
+    // this.dataSource.data = this.data;
+  }
+  onDropFromUnloadedOrders({ value }) {}
 }

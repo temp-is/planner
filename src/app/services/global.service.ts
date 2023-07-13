@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { BehaviorSubject, Subject, forkJoin, map, of, tap } from 'rxjs';
 import { Observable } from 'rxjs';
 import {
@@ -15,14 +15,12 @@ import {
 import { API } from '../core/API';
 import { IInitialData } from '../core/models/inital-data.model';
 import { StorageService } from './storage.service';
-
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalService {
   private initialAppDataSubject$: BehaviorSubject<IInitialData> =
     new BehaviorSubject(null);
-
   private UnloadedOrders$: Subject<IUnloadedOrders[]> = new Subject();
   private LoadedOrders$: Subject<ILoadedOrders[]> = new Subject();
   private Resurce$: Subject<IResource[]> = new Subject();
@@ -52,7 +50,10 @@ export class GlobalService {
     this.Resurce$.next(data);
   }
 
-  constructor(private http: HttpClient, private storage: StorageService) {}
+  constructor(
+    private http: HttpClient,
+    private storage: StorageService //, //private schedulercomponent: SchedulerComponent
+  ) {}
 
   public getWorkCenter(factoryCode: string): Observable<IWorkCenter[]> {
     const params = new HttpParams()
@@ -262,5 +263,27 @@ export class GlobalService {
         this.initialAppDataSubject$.next(data);
       })
     );
+  }
+
+  private orderSubject: Subject<string> = new Subject();
+  private orderSubjectdsc: Subject<string> = new Subject();
+
+  public getOrderNumber(element: any): void {
+    debugger;
+    this.orderSubject.next(element);
+    //this.schedulercomponent.onChange(element);
+  }
+
+  public getOrderNumber$() {
+    return this.orderSubject.asObservable();
+  }
+
+  public getOrderFromUnloaded(element: any) {
+    debugger;
+    this.orderSubject.next(element);
+  }
+
+  public getOrderFromUnloaded$() {
+    return this.orderSubject.asObservable();
   }
 }

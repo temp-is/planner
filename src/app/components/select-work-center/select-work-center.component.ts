@@ -53,6 +53,7 @@ export class SelectWorkCenterComponent {
   public onSubmit(loginForm: NgForm): void {
     this.globalService.progressBar = true;
     this.dialogRef.close();
+    //debugger;
     this.storage.setData('workCenter', loginForm.value.workCenter);
     this.showComponent = false;
     /**FOR DEBUG */
@@ -110,6 +111,7 @@ export class SelectWorkCenterComponent {
     });
     this.globalService.getloadedorders(formVal).subscribe((data) => {
       this.globalService.setLoadedOrders$(data);
+      this.storage.setData('loadedOrders', data);
     });
   }
 }

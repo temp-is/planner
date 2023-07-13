@@ -26,6 +26,31 @@ export const schedulerProConfig: Partial<SchedulerProConfig> = {
     new Date().getMonth() + 2,
     new Date().getDate()
   ),
+
+  listeners: {
+    beforeDragCreate({ date }) {
+      //debugger;
+      // Prevent drag creating events in the past
+      return date >= Date.now();
+    },
+    eventdragover: ({ event }) => {
+      debugger;
+      event.preventDefault();
+    },
+    eventdragenter: ({ event }) => {
+      debugger;
+      // Add your custom logic for when the draggable element enters the drop target
+    },
+    eventdragleave: ({ event }) => {
+      debugger;
+      // Add your custom logic for when the draggable element leaves the drop target
+    },
+    eventdrop: ({ event }) => {
+      debugger;
+      event.preventDefault();
+      // Add your custom logic for handling the drop event on the drop target
+    },
+  },
   features: {
     eventMenu: {
       items: {
