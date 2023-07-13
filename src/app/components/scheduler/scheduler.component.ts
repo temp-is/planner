@@ -1,30 +1,32 @@
-import { Component, ElementRef, NgModule, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  NgModule,
+  Optional,
+  ViewChild,
+} from '@angular/core';
 import { schedulerProConfig, projectConfig } from '@app/app.config';
 import { GlobalService } from '@app/services/global.service';
 import { StorageService } from '@app/services/storage.service';
 import { Observable, Subscription } from 'rxjs';
-import { CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragStart, CdkDropList } from '@angular/cdk/drag-drop';
 
 import {
   BryntumSchedulerProComponent,
   BryntumProjectModelComponent,
 } from '@bryntum/schedulerpro-angular';
-import {
-  ViewPreset,
-  SchedulerPro,
-  DragHelper,
-  DomClassList,
-} from '@bryntum/schedulerpro';
+import { LocaleHelper } from '@bryntum/schedulerpro/schedulerpro.module.js';
+import { LocaleManager } from '@bryntum/schedulerpro/schedulerpro.module.js';
+
+import { ViewPreset, SchedulerPro, DateHelper } from '@bryntum/schedulerpro';
+
 import {
   ILoadedOrders,
   IUnloadedOrders,
 } from '@app/shared/models/planner.interface';
-import { Toast } from '@bryntum/schedulerpro/schedulerpro.umd.js'; // Adjust the import path as needed
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { SchedulerUnits } from '@app/core/consts';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { MyDrag } from '@app/core/services/my-drag';
 
 @Component({
@@ -36,22 +38,124 @@ export class SchedulerComponent {
   dropTargetRef: any;
   constructor(
     public globalService: GlobalService,
-    private storage: StorageService
+    private storage: StorageService,
+
+    @Optional() public dialogRef: MatDialogRef<SchedulerComponent>
   ) {
     this.onChange = this.onChange.bind(this);
   }
   private sub: Subscription = new Subscription();
+  public dataSource;
+  public showDialog: boolean = false;
+  public displayedColumns = ['name', 'value'];
 
-  public viewPreset = new ViewPreset({
+  public monthAndYear2 = new ViewPreset({
+    id: 'monthAndYear2', // Unique id value provided to recognize your view preset. Not required, but having it you can simply set new view preset by id: scheduler.viewPreset = 'myPreset'
+    name: 'monthAndYear2', // A human-readable name provided to be used in GUI, e.i. preset picker, etc.
+    rowHeight: 24, // Only used in horizontal orientation
+    displayDateFormat: 'Y-m-d', // Controls how s will be displayed in tooltips etc
+    shiftIncrement: 1, // Controls how much time to skip when calling shiftNext and shiftPrevious.
+    shiftUnit: 'week', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
+    defaultSpan: 8, // By default, if no end  is supplied to a view it will show 12 hours
+    timeResolution: {
+      // s will be snapped to this resolution
+      unit: 'week', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
+      increment: 1,
+    },
+    headers: [
+      {
+        // For each row you can define "unit", "increment", "Format", "renderer", "align", and "scope"
+        unit: 'month',
+        align: 'center',
+        Format: 'M Y',
+      },
+      // This defines your header, you must include a "middle" object, and top/bottom are optional.
+      {
+        unit: 'week',
+        align: 'center',
+        Format: 'W M Y',
+        renderer: function (start, end, cfg) {
+          return (
+            DateHelper.getShortNameOfUnit('week') +
+            '.' +
+            DateHelper.format(start, 'W M Y')
+          );
+        },
+      },
+    ],
+  });
+
+  public dayAndWeek2 = new ViewPreset({
+    id: 'dayAndWeek2', // Unique id value provided to recognize your view preset. Not required, but having it you can simply set new view preset by id: scheduler.viewPreset = 'myPreset'
+    name: 'dayAndWeek2', // A human-readable name provided to be used in GUI, e.i. preset picker, etc.
+    rowHeight: 24, // Only used in horizontal orientation
+    displayDateFormat: 'Y-m-d', // Controls how s will be displayed in tooltips etc
+    shiftIncrement: 1, // Controls how much time to skip when calling shiftNext and shiftPrevious.
+    shiftUnit: 'day', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
+    defaultSpan: 4, // By default, if no end  is supplied to a view it will show 12 hours
+    timeResolution: {
+      // s will be snapped to this resolution
+      unit: 'day', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
+      increment: 1,
+    },
+    headers: [
+      // This defines your header, you must include a "middle" object, and top/bottom are optional.
+      {
+        unit: 'week',
+        Format: 'W M Y',
+        renderer: function (start, end, cfg) {
+          return (
+            DateHelper.getShortNameOfUnit('week') +
+            '.' +
+            DateHelper.format(start, 'W M Y')
+          );
+        },
+      },
+
+      {
+        // For each row you can define "unit", "increment", "Format", "renderer", "align", and "scope"
+        unit: 'day',
+        align: 'center',
+        Format: 'D d M',
+        renderer: function (start, end, headerConfig) {
+          var hStoreData = this.storage.getData('holidays');
+          var date1 =
+            start.getDate().toString() +
+            start.getMonth().toString() +
+            start.getFullYear().toString();
+          for (var i = 0; i < hStoreData.length; i++) {
+            var date2 =
+              hStoreData[i].StartDate.getDate().toString() +
+              hStoreData[i].StartDate.getMonth().toString() +
+              hStoreData[i].StartDate.getFullYear().toString();
+            if (date1 == date2) {
+              var cls = 'FriSatHeaderClass';
+            }
+          }
+
+          // Simple alternating month in bold
+          return (
+            '<div class="' +
+            cls +
+            '">' +
+            DateHelper.format(start, 'D d M') +
+            '</div>'
+          );
+        },
+      },
+    ],
+  });
+
+  public hourAndDay2 = new ViewPreset({
     id: 'hourAndDay2', // Unique id value provided to recognize your view preset. Not required, but having it you can simply set new view preset by id: scheduler.viewPreset = 'myPreset'
     name: 'hourAndDay2', // A human-readable name provided to be used in GUI, e.i. preset picker, etc.
     rowHeight: 50, // Only used in horizontal orientation
-    displayDateFormat: 'd/m/Y H:i:s', // Controls how dates will be displayed in tooltips etc
+    displayDateFormat: 'd/m/Y H:i:s', // Controls how s will be displayed in tooltips etc
     shiftIncrement: 1, // Controls how much time to skip when calling shiftNext and shiftPrevious.
     shiftUnit: 'hour', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
-    defaultSpan: 1, // By default, if no end date is supplied to a view it will show 12 hours
+    defaultSpan: 1, // By default, if no end  is supplied to a view it will show 12 hours
     timeResolution: {
-      // Dates will be snapped to this resolution
+      // s will be snapped to this resolution
       unit: 'hour', // Valid values are "MILLI", "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR".
       increment: 1,
     },
@@ -60,13 +164,13 @@ export class SchedulerComponent {
       // This defines your header, you must include a "middle" object, and top/bottom are optional.
       {
         unit: 'day',
-        dateFormat: 'D d/m/Y',
+        Format: 'D d/m/Y',
       },
-      {
-        // For each row you can define "unit", "increment", "dateFormat", "renderer", "align", and "scope"
-        unit: 'hour',
-        dateFormat: 'G',
 
+      {
+        // For each row you can define "unit", "increment", "Format", "renderer", "align", and "scope"
+        unit: 'hour',
+        Format: 'G',
         renderer: function (start, end, headerConfig) {
           var hour = start.getHours();
           var cls;
@@ -85,6 +189,7 @@ export class SchedulerComponent {
       },
     ],
   });
+
   public resources = [];
   public calcEvents = [];
   public events = [];
@@ -97,7 +202,7 @@ export class SchedulerComponent {
   // events = [
   //   {
   //     id: 1,
-  //     startDate: '2023-07-01',
+  //     start: '2023-07-01',
   //     duration: 3,
   //     name: 'Event 1',
   //   },
@@ -114,8 +219,7 @@ export class SchedulerComponent {
   resourceId: string;
   public oldEvent = null;
   public newstart = null;
-  public newend = new Date();
-  public dd: DragHelper;
+  public newend = null;
 
   @ViewChild('schedulerpro')
   schedulerProComponent!: BryntumSchedulerProComponent;
@@ -159,7 +263,6 @@ export class SchedulerComponent {
         }
 
         this.events = this.calcEvents;
-
         console.log('calcEvents', this.calcEvents);
         for (var i = 0; i < data.length; i++) {
           this.assignments.push({
@@ -180,28 +283,37 @@ export class SchedulerComponent {
     );
   }
   sortAllOrders(event: any, oldEvent: any): ILoadedOrders {
-    var durationInMin = this.getEventDuration(event);
+    // var durationInMin = this.getEventDuration(
+    //   event.startDate,
+    //   event,
+    //   event.resourceId
+    // );
+    var durationInMin = 200;
     var allowHday = false;
     var LastdurationInMin = 0;
 
     if (oldEvent != null && event.resourceId == oldEvent.resourceId) {
-      this.newstart = new Date(oldEvent.endDate);
-      this.newstart = new Date(
-        this.newstart.setMinutes(this.newstart.getMinutes() + 1)
+      this.newstart = DateHelper.add(
+        oldEvent.endDate,
+        1,
+        SchedulerUnits.MINUTE
       );
     } else {
-      this.newstart = new Date(event.startDate);
-      this.newstart = new Date(
-        this.newstart.setMinutes(this.newstart.getMinutes() + 1)
-      );
+      this.newstart = DateHelper.add(event.startDate, 1, SchedulerUnits.MINUTE);
     }
-    this.newend = new Date(this.newstart);
-    this.newend = new Date(
-      this.newend.setMinutes(this.newend.getMinutes() + durationInMin)
-    );
+    // if (event.resourceId == '02' && event.name == '7092534') {
 
+    //   var Sch_util_ = locale.Helper;
+
+    //   durationInMin = 6396;
+    // }
+    this.newend = DateHelper.add(
+      this.newstart,
+      durationInMin,
+      SchedulerUnits.MINUTE
+    );
     if (durationInMin > LastdurationInMin) {
-      var LastnextSeqStartDate = this.newend;
+      var LastnextSeqStart = this.newend;
       LastdurationInMin = durationInMin;
     }
     if (event.allowHday == true) allowHday = true;
@@ -209,59 +321,53 @@ export class SchedulerComponent {
     event.endDate = this.newend;
     return event;
   }
-
   ngOnDestry() {
     this.sub.unsubscribe();
   }
-
-  getEventDuration(eventRec: any): number {
+  getEventDuration(startDate: any, eventRec: any, ResourceID: any): number {
+    var me = this;
     var durationInMin = eventRec.Duration * 60;
-
     if (eventRec.openedReported) return durationInMin;
-
     var availabilityStore = this.storage.getData('availability');
     var availability = [];
     var rec = {};
-    for (var i = 0; i < availabilityStore.length; i++) {
+    for (let i = 0; i < availabilityStore.length; i++) {
       if (
-        availabilityStore[i].resourceId == eventRec.resourceID &&
-        (availabilityStore[i].Cls == 'lunch' ||
-          availabilityStore[i].Cls == 'rep-lunch')
+        availabilityStore[i].ResourceId === ResourceID &&
+        (availabilityStore[i].Cls === 'lunch' ||
+          availabilityStore[i].Cls === 'rep-lunch')
       ) {
-        rec = {
-          startDate: availabilityStore[i].startDate,
-          endDate: availabilityStore[i].endDate,
+        const rec = {
+          StartDate: availabilityStore[i].StartDate,
+          EndDate: availabilityStore[i].EndDate,
         };
         availability.push(rec);
       }
     }
-
     if (!eventRec.allowHday) {
       var holidaysArr = this.storage.getData('holidays');
-      for (var i = 0, l = holidaysArr.length; i < l; i++) {
+      for (let i = 0; i < holidaysArr.length; i++) {
         rec = {
-          startDate: holidaysArr[i].startDate,
-          endDate: holidaysArr[i].endDate,
+          StartDate: holidaysArr[i].StartDate,
+          EndDate: holidaysArr[i].EndDate,
         };
         availability.push(rec);
       }
     }
-
-    var endDate = new Date(eventRec.startDate);
-    endDate = new Date(
-      endDate.setMinutes(endDate.getMinutes() + durationInMin)
+    var endDate = DateHelper.add(
+      startDate,
+      durationInMin,
+      SchedulerUnits.MINUTE
     );
-    var startDateTS = new Date(eventRec.startDate).getTime();
+    var startDateTS = new Date(startDate).getTime();
     var endDateTS = endDate.getTime();
     var newDuration = durationInMin;
-
-    //availability.sort(this.compareAvailability);
-
-    for (var i = 0, i = availability.length; i < l; i++) {
-      var availStartDate = availability[i].startDate;
-      var availEndDate = availability[i].endDate;
-      var availStartTs = availStartDate.getTime();
-      var availEndTs = availEndDate.getTime();
+    //availability.sort(me.compareAvailability);
+    for (let i = 0; i < availability.length; i++) {
+      var availStartDate = availability[i].StartDate;
+      var availEndDate = availability[i].EndDate;
+      var availStartTs = new Date(availStartDate).getTime();
+      var availEndTs = new Date(availEndDate).getTime();
 
       if (
         (endDateTS >= availStartTs && endDateTS <= availEndTs) ||
@@ -269,18 +375,102 @@ export class SchedulerComponent {
       ) {
         var diffMs = availEndDate - availStartDate; // milliseconds between now & Christmas
         newDuration = Math.round(diffMs / 60000) + newDuration;
-        endDate = new Date(eventRec.startDate);
-        endDate.setMinutes(endDate.getMinutes() + newDuration);
+        endDate = DateHelper.add(
+          startDate,
+          durationInMin,
+          SchedulerUnits.MINUTE
+        );
         endDateTS = endDate.getTime();
       }
     }
-
     if (newDuration != durationInMin) {
       return newDuration;
     } else {
       return durationInMin;
     }
   }
+  compareAvailability(a: any, b: any): number {
+    if (a.StartDate < b.StartDate) {
+      return -1;
+    }
+    if (a.StartDate > b.StartDate) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  public closeDialog(): void {
+    this.showDialog = false;
+  }
+  onEventClick(e: any): void {
+    this.dataSource = Object.entries(e.eventRecord.data).map((o) => {
+      return { name: o[0], value: JSON.stringify(o[1]) };
+    });
+    this.showDialog = true;
+  }
+
+  //   checkLunch (start:any, durationInMin:any, resource:any, eventRec:any) : {
+  //     const helperInst = Helper.add(new (), 2, SchedulepackarUnits.MINUTE);
+  //     debugger;
+
+  //     if (eventRec.openedReported) return start;
+
+  //     var availabilityStore = this.storage.getData('availabilityStore');
+  //     if (!availabilityStore) return start
+
+  //     var availability = [];
+
+  //     availabilityStore.each(function (record, id) {
+  //         if (record.get('ResourceId') == resource &&
+  //             (record.get('Cls') == 'lunch' || record.get('Cls') == 'rep-lunch')) {
+  //             availability.push(record);
+  //         }
+  //     });
+
+  //     if (!availability || availability.length === 0) return start;
+
+  //     debugger;
+  //     var Sch_util_ = locale.Helper;
+
+  //     var end = Sch_util_.add(start, Sch_util_.MINUTE, durationInMin);
+
+  //     var startTS = start.getTime();
+  //     var endTS = end.getTime();
+
+  //     var new = false;
+
+  //     for (var i = 0, l = availability.length; i < l; i++) {
+
+  //         var availStartTs = availability[i].getStart().getTime();
+  //         var availEndTs = availability[i].getEnd().getTime();
+
+  //         if (eventRec && (eventRec.data.openedReported || eventRec.data.Name == 9)) {
+  //             if (startTS >= availStartTs && startTS <= availEndTs ||
+  //                 endTS >= availStartTs && endTS <= availEndTs ||
+  //                 startTS < availStartTs && endTS > availEndTs) {
+  //                 availability[i].data.Cls = '';
+  //             }
+  //             continue;
+  //         }
+
+  //         if (startTS >= availStartTs && startTS <= availEndTs) {
+
+  //             new = availability[i].getEnd();
+  //             startTS = availEndTs;
+  //             end = Sch_util_.add(availability[i].getEnd(), Sch_util_.MINUTE, durationInMin);
+  //             endTS = end.getTime();
+
+  //         }
+  //     }
+
+  //     if (new == false) {
+  //         return start;
+  //     } else {
+  //         return Sch.util..add(new, Sch.util..MINUTE, 1);
+  //     }
+
+  // };
 
   onChange({ value }) {
     let value1 = value.value;
@@ -341,6 +531,5 @@ export class SchedulerComponent {
     // moveItemInArray(this.data, event.previousIndex, event.currentIndex);
     // this.dataSource.data = this.data;
   }
-
   onDropFromUnloadedOrders({ value }) {}
 }

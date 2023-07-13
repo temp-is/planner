@@ -3,6 +3,7 @@ import { AuthService } from './auth/auth.service';
 import { Observable } from 'rxjs';
 import { StorageService } from './services/storage.service';
 import { GlobalService } from './services/global.service';
+import { DateHelper } from '@bryntum/schedulerpro';
 
 @Component({
   selector: 'app-root',

@@ -20,6 +20,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BryntumSchedulerProModule } from '@bryntum/schedulerpro-angular';
+import { MatSortModule } from '@angular/material/sort';
 
 const modules: Array<any> = [
   MatToolbarModule,
@@ -41,6 +42,7 @@ const modules: Array<any> = [
   MatSliderModule,
   ReactiveFormsModule,
   BryntumSchedulerProModule,
+  MatSortModule,
 ];
 
 @NgModule({

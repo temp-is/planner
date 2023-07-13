@@ -1,5 +1,44 @@
 .schedular {
   height: 550px;
+
+  &__dialog {
+    box-shadow: 6px 4px 5px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 6px 4px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 6px 4px 5px 0px rgba(0, 0, 0, 0.75);
+    position: absolute;
+    top: 154px;
+    left: 655px;
+    width: 500px;
+    z-index: 1;
+    height: 583px;
+    border: 1px solid;
+    overflow-y: scroll;
+    border-radius: 4px;
+    background: #fff;
+  }
+
+  &__records-header {
+    display: flex;
+  }
+
+  &__records-value {
+    width: 100%;
+    height: 30px;
+    padding: 5px;
+    text-align: left;
+  }
+
+  &__records-name {
+    width: 100%;
+    height: 30px;
+    padding: 5px;
+    text-align: left;
+  }
+
+  &__record {
+    display: flex;
+    border-bottom: 1px solid;
+  }
 }
 .center-screen {
   display: flex;

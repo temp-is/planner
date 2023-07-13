@@ -7,6 +7,8 @@ import { FormControl, NgForm } from '@angular/forms';
 import { StorageService } from 'src/app/services/storage.service';
 import { DEFAULT_DIALOG_CONFIG } from '@angular/cdk/dialog';
 import { UnloadedOrdersComponent } from '../unloaded-orders/unloaded-orders.component';
+import { DateHelper } from '@bryntum/schedulerpro';
+import { SchedulerUnits } from '@app/core/consts/scheduler.utils';
 
 @Component({
   selector: 'app-select-work-center',
@@ -54,24 +56,60 @@ export class SelectWorkCenterComponent {
     //debugger;
     this.storage.setData('workCenter', loginForm.value.workCenter);
     this.showComponent = false;
-    this.globalService
-      .createworkcenterdata(loginForm.value)
-      .subscribe((data) => {
-        console.log(data, 'createworkcenterdata');
-      });
-    this.globalService.getresourcestore(loginForm.value).subscribe((data) => {
+    /**FOR DEBUG */
+    // original:  loginForm.value
+    // const formVal = loginForm.value
+    const formVal = {
+      factory: 'HR',
+      workCenterType: null,
+      workCenter: 'K4P',
+      machine: null,
+      numberOfOprationsBefore: null,
+      includeOfficeCheckBox: false,
+      viewModeCheckBox: false,
+    };
+    /**END DEBUG */
+
+    this.globalService.createworkcenterdata(formVal).subscribe((data) => {
+      console.log(data, 'createworkcenterdata');
+    });
+    this.globalService.getresourcestore(formVal).subscribe((data) => {
       this.globalService.setResurces$(data);
     });
-    this.globalService.getavailability(loginForm.value).subscribe((data) => {
+    this.globalService.getavailability(formVal).subscribe((data) => {
       this.storage.setData('availability', data);
     });
-    this.globalService.getHolidays(loginForm.value).subscribe((data) => {
-      this.storage.setData('holidays', data);
+    this.globalService.getHolidays(formVal).subscribe((data) => {
+      var holidaysData = [];
+      for (let i = 0; i < data.length; i++) {
+        var holidayStartDate = new Date(data[i].HolidayDate);
+        if (typeof data[i].EndHTime != 'undefined') {
+          var holidayEndDate = new Date(
+            data[i].HolidayDate + ',' + data[i].EndHTime
+          );
+        } else {
+          var holidayEndDate = DateHelper.add(
+            holidayStartDate,
+            1,
+            SchedulerUnits.MINUTE
+          );
+        }
+        holidaysData.push({
+          StartDate: holidayStartDate,
+          StartDateTs: holidayStartDate.getTime(),
+          EndDate: holidayEndDate,
+          EndDateTs: holidayEndDate.getTime(),
+          Type: 'Day off',
+          Cls: 'myZoneStyle',
+        });
+      }
+
+      this.storage.setData('holidays', holidaysData);
     });
-    this.globalService.getunloadedorders(loginForm.value).subscribe((data) => {
+    this.globalService.getunloadedorders(formVal).subscribe((data) => {
       this.globalService.setUnloadedOrders$(data);
     });
-    this.globalService.getloadedorders(loginForm.value).subscribe((data) => {
+    this.globalService.getloadedorders(formVal).subscribe((data) => {
       this.globalService.setLoadedOrders$(data);
       this.storage.setData('loadedOrders', data);
     });
