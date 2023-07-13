@@ -59,3 +59,151 @@
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 5px;
 }
+
+.b-bold {
+  font-weight: bold;
+  color: red;
+}
+
+.b-less-bold {
+  font-weight: normal;
+}
+
+.b-sch-event {
+  align-items: flex-start;
+  justify-content: center;
+  font-size: 13px;
+  border-radius: 2px;
+  opacity: 0.9;
+  transition: opacity 0.4s, box-shadow 0.4s;
+  flex-direction: column;
+}
+.b-sch-event .b-sch-event-content {
+  flex-direction: column;
+}
+.b-sch-event:focus,
+.b-sch-event.b-sch-event-hover {
+  opacity: 1;
+}
+
+.b-sch-event-header {
+  font-size: 0.7em;
+}
+
+.b-sch-event-footer {
+  font-weight: 400;
+}
+
+.b-highlighting .b-sch-event-wrap .b-sch-event {
+  opacity: 0.2;
+}
+.b-highlighting .b-sch-event-wrap .b-sch-event.b-match {
+  opacity: 1;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 4px 8px;
+}
+
+.b-sch-range {
+  background: repeating-linear-gradient(
+    -55deg,
+    #ddd,
+    #ddd 10px,
+    #eee 5px,
+    #eee 20px
+  );
+  opacity: 0.7;
+}
+
+.b-theme-classic-dark .b-sch-range {
+  background: repeating-linear-gradient(
+    -55deg,
+    #222,
+    #222 10px,
+    #333 5px,
+    #333 20px
+  );
+}
+
+.b-theme-classic-light .b-sch-range {
+  background: repeating-linear-gradient(
+    -55deg,
+    #eee,
+    #eee 10px,
+    #f7f7f7 5px,
+    #f7f7f7 20px
+  );
+}
+
+.b-sch-event.red-text {
+  color: red;
+}
+
+:ng-deep {
+  bryntum-scheduler-pro {
+    z-index: 2;
+  }
+}
+
+.b-sch-event {
+  border-radius: 3px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+#main {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 100%;
+}
+#main .b-resourceheader {
+  height: 100%;
+}
+
+.b-unplannedgrid div[data-column="name"] .b-fa {
+  margin-inline-end: 0.5em;
+}
+
+.b-grid-header {
+  height: 57px;
+}
+
+.b-unassigned-class.b-drag-proxy {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.25);
+}
+.b-unassigned-class.b-drag-proxy.b-drag-invalid .b-sch-event {
+  background: red;
+}
+.b-unassigned-class.b-drag-proxy.b-horizontal {
+  align-items: center;
+  padding-inline-start: 0.5em;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+.b-unassigned-class.b-drag-proxy.b-horizontal i {
+  margin-inline-end: 0.5em;
+}
+.b-unassigned-class.b-drag-proxy.b-vertical {
+  justify-content: flex-start;
+  padding-top: 0.5em;
+}
+
+[data-column="duration"] div.b-grid-header-text .b-grid-header-text-content {
+  text-align: center;
+}
+[data-column="duration"] div.b-grid-header-text .b-grid-header-text-content i {
+  font-size: 1.3em;
+  margin: 0;
+}
+
+.b-sch-tooltip-startdate,
+.b-sch-tooltip-enddate {
+  margin-top: 0.2em;
+}
+
+.draggable {
+  background: orange;
+  cursor: grab;
+  width: 300px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

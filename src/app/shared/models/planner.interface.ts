@@ -306,6 +306,7 @@ export interface ILoadedOrders {
   isWCNC: boolean;
   isWGrW: boolean;
   isWDraw: boolean;
+  cls: string;
 }
 
 export interface IResource {

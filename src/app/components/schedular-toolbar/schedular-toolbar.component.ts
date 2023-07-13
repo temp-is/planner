@@ -3,7 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MarkLoadedOrdersComponent } from '../mark-loaded-orders/mark-loaded-orders.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { GlobalService } from 'src/app/services/global.service';
+interface dType {
+  value: string;
+  kind: string;
+}
 @Component({
   selector: 'app-schedular-toolbar',
   templateUrl: './schedular-toolbar.component.html',
@@ -12,8 +16,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class SchedularToolbarComponent {
   showCheckboxSection = false;
   toppings: FormGroup;
+  elemen1: dType;
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog, private globalService: GlobalService) {
     this.toppings = new FormGroup({
       pepperoni: new FormControl(false),
       extracheese: new FormControl(false),
@@ -47,22 +52,26 @@ export class SchedularToolbarComponent {
 
   public onSaveBtn() {}
 
-  public onGotoOrderIdBtn(element: string) {
-    if (element === '') {
-      console.log('null');
-      //return true;
-    } else {
-      console.log(element);
-      //sched.gotoOrderId(element, 'search_mark');
-    }
+  public onGotoOrderIdBtn(element: any) {
+    debugger;
+    this.elemen1 = {
+      value: element,
+      kind: 'id',
+    };
+    console.log(element);
+    this.globalService.getOrderNumber(this.elemen1);
+    //this.schedulerComponent.onChange(element);
+
+    //sched.gotoOrderId(element, 'search_mark');
   }
 
-  public onGotoOrderDscBtn(element: string) {
-    if (element === '') {
-      console.log('null');
-    } else {
-      console.log(element);
-      //sched.gotoOrderId(element, 'search_mark');
-    }
+  public onGotoOrderDscBtn(element: any) {
+    debugger;
+    this.elemen1 = {
+      value: element,
+      kind: 'dsc',
+    };
+    console.log(element);
+    this.globalService.getOrderNumber(this.elemen1);
   }
 }
