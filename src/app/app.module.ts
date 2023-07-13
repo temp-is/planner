@@ -20,6 +20,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { MarkLoadedOrdersComponent } from './components/mark-loaded-orders/mark-loaded-orders.component';
+import { LoadedOrderDialogComponent } from './components/loaded-order-dialog/loaded-order-dialog.component';
 
 // Add the import statement for FactoryDetails
 
@@ -36,6 +37,7 @@ import { MarkLoadedOrdersComponent } from './components/mark-loaded-orders/mark-
     SchedularToolbarComponent,
     UnloadedOrdersComponent,
     MarkLoadedOrdersComponent,
+    LoadedOrderDialogComponent,
   ],
   imports: [
     BrowserModule,

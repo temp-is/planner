@@ -1,0 +1,33 @@
+/* Preload machine */
+.staffscheduler .x-grid-inner-locked .x-grid-view td {
+  border-top-color: transparent !important;
+  border-bottom-color: #04408c !important;
+  border-style: dashed;
+  /*vertical-align: middle;*/
+}
+
+.staffscheduler .sch-schedulerview td {
+  border-bottom-color: #04408c !important;
+  /*border-top-color: #04408c !important;
+  border-right-color: #04408c !important;*/
+  border-style: dashed;
+}
+.staffscheduler .x-grid-inner-locked .x-grid-cell {
+  border-bottom-color: #d0d0d0;
+  border-top-color: #ffeeee;
+  color: #04408c;
+  font-weight: bold;
+  background: #e7ebf0;
+}
+
+.staffscheduler .x-grid-inner-locked .x-grid-cell-inner {
+  text-align: center !important;
+}
+
+// .staffscheduler .optimal {
+//   background: Aqua url(../images/accept.png) no-repeat 2px center !important;
+// }
+
+.staffscheduler .sch-column-line {
+  border-left-color: #ccc;
+}

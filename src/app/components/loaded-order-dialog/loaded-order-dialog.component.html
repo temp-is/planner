@@ -1,0 +1,44 @@
+<header class="loaded-order__header">
+  <div class="loaded-order__header-left">
+    {{ name }}
+  </div>
+  <div class="loaded-order__header-right">
+    <button mat-icon-button (click)="closeDialog()">×</button>
+  </div>
+</header>
+
+<table
+  mat-table
+  [dataSource]="_dataSource"
+  matSort
+  (matSortChange)="announceSortChange($event)"
+>
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      sortActionDescription="Sort by name"
+    >
+      Name
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="value">
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      sortActionDescription="Sort by value"
+    >
+      Value
+    </th>
+    <td mat-cell *matCellDef="let element">{{ element.value }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

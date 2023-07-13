@@ -161,6 +161,21 @@ export class GlobalService {
     return this.http.get<ILoadedOrders[]>(API['loadedOrders'], httpOptions);
   }
 
+  public getloadedordersTest(): Observable<ILoadedOrders[]> {
+    const params = new HttpParams()
+      .append('getWcn', 'K4P')
+      .append('localLang', true)
+      .append('page', 1)
+      .append('start', 0)
+      .append('limit', 500);
+    const httpOptions = {
+      headers: new HttpHeaders({}),
+      withCredentials: true,
+      params: params,
+    };
+    return this.http.get<ILoadedOrders[]>(API['loadedOrders'], httpOptions);
+  }
+
   public createworkcenterdata(data: any): Observable<ICreateworkcenterdata> {
     const params = new HttpParams()
       .append('workcentercode', data.workCenter)

@@ -1,6 +1,11 @@
 <div class="schedular">
+  <div *ngIf="showDialog" class="schedular__dialog">
+    <app-loaded-order-dialog
+      (onCloseDialog)="closeDialog()"
+      [dataSource]="dataSource"
+    ></app-loaded-order-dialog>
+  </div>
   <app-schedular-toolbar class="sticky-toolbar"></app-schedular-toolbar>
-
   <mat-progress-spinner
     class="progress-bar"
     mode="indeterminate"
@@ -18,11 +23,13 @@
 
     <bryntum-scheduler-pro
       #schedulerpro
+      (onEventClick)="onEventClick($event)"
       [columns]="schedulerProConfig.columns"
+      [features]="schedulerProConfig.features"
       [startDate]="schedulerProConfig.startDate!"
       [endDate]="schedulerProConfig.endDate!"
       [project]="project"
-      [viewPreset]="viewPreset"
+      [viewPreset]="hourAndDay2"
     ></bryntum-scheduler-pro>
   </ng-template>
 </div>
